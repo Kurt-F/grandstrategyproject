@@ -125,8 +125,7 @@ extern "C" __declspec(dllexport) int DoStuff()
 
 	std::cout << "Context created" << std::endl;
 
-	cl_program program = CreateProgram(LoadKernel("saxpy.cl"),
-		context);
+	cl_program program = CreateProgram(LoadKernel("saxpy.cl"),context);
 
 	CheckError(clBuildProgram(program, deviceIdCount, deviceIds.data(), nullptr, nullptr, nullptr));
 
