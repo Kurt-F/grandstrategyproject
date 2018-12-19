@@ -13,4 +13,10 @@
       <Filter>kernels</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ArmyManagerSingleton.cpp" />
+    <ClCompile Include="Unit.cpp" />
+    <ClCompile Include="Army.cpp" />
+    <ClCompile Include="OpenCLContext.cpp" />
+  </ItemGroup>
 </Project>

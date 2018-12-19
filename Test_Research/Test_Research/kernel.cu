@@ -65,7 +65,7 @@ cl_program CreateProgram(const std::string& source,
 	return program;
 }
 
-int main()
+int old_main()
 {
 	// http://www.khronos.org/registry/cl/sdk/1.1/docs/man/xhtml/clGetPlatformIDs.html
 	cl_uint platformIdCount = 0;
