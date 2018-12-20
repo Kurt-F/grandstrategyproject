@@ -10,6 +10,8 @@
 #include <vector>
 #include <stdio.h>
 
+
+
 	std::string OpenCLContext::GetPlatformName(cl_platform_id id)
 	{
 		size_t size = 0;

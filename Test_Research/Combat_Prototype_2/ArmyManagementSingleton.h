@@ -10,6 +10,7 @@
 
 
 #include <list>
+#include <map>
 #include "Army.h"
 #include "OpenCLContext.h"
 
@@ -24,6 +25,7 @@ private:
 	ArmyManagerSingleton();
 	std::list<int> used_indices;
 	std::list<int> free_indices;
+	std::map<int, int> index_to_id;
 	cl_mem* armies;
 
 public:

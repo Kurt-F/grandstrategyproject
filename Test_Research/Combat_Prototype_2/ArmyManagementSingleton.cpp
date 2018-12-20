@@ -6,7 +6,13 @@
 #include <list>
 #include "ArmyManagementSingleton.h"
 
-
+void CheckError(cl_int error)
+{
+	if (error != CL_SUCCESS) {
+		std::cerr << "OpenCL call failed with error " << error << std::endl;
+		std::exit(1);
+	}
+}
 ArmyManagerSingleton* ArmyManagerSingleton::instance;
 
  ArmyManagerSingleton::ArmyManagerSingleton() {
@@ -22,7 +28,8 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 		cl_int error = 0;
 		for (int i = 0; i < max_num_armies; i++)
 		{
-			armies[i] = clCreateImage2D(context, CL_MEM_READ_WRITE, NULL, max_army_size * sizeof(float), unit_length * sizeof(float), 0, NULL, &error);
+			armies[i] = clCreateBuffer(context, CL_MEM_READ_WRITE, max_army_size * unit_length * sizeof(float), nullptr, &error);
+			CheckError(error);
 		}
 	}
 
