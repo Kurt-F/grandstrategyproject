@@ -56,10 +56,13 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 			armies[i] = clCreateBuffer(context.GetClContext(), CL_MEM_READ_WRITE, max_army_size * unit_length * sizeof(float), nullptr, &error);
 			CheckError(error);
 		}
-		program = CreateProgram(LoadKernel("saxpy.cl"),
+		program = CreateProgram(LoadKernel("Army.cl"),
 			context.GetClContext());
 
 		CheckError(clBuildProgram(program, context.getDeviceIdCount(), context.getDeviceIds().data(), nullptr, nullptr, nullptr));
+		queue = clCreateCommandQueue(context.GetClContext(), context.getDeviceIds().data()[0],
+			0, &error);
+		CheckError(error);
 	}
 
 	ArmyManagerSingleton* ArmyManagerSingleton::get_instance() {
@@ -72,7 +75,34 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 		return nullptr;
 	}
 
-	void ArmyManagerSingleton::initArmy(int index, int size)
+	void ArmyManagerSingleton::initArmy(int size)
 	{
-
+		int max_num_armies = MAX_NUM_ARMIES;
+		cl_kernel* kernels = new cl_kernel[max_num_armies];
+		cl_int error = 0;
+		const size_t globalWorkSize[] = { 25, 0, 0 };
+		static const int UNIT_SIZE = 25; 
+		std::cout << "Start\n";
+		for (int i = 0; i < max_num_armies; i++)
+		{
+			kernels[i] = clCreateKernel(program, "INIT", &error);
+			CheckError(error);
+			clSetKernelArg(kernels[i], 0, sizeof(cl_mem), &armies[i]);
+			clSetKernelArg(kernels[i], 1, sizeof(int), &UNIT_SIZE);
+			CheckError(clEnqueueNDRangeKernel(queue, kernels[i], 1, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr)); 
+		}
+		std::cout << "End\n";
+		
+		
+		CheckError(error);
+		float* stuff = new float[25 * 25 * sizeof(float)];
+		clEnqueueReadBuffer(queue, armies[185], CL_TRUE, 0, 25 * 25 * sizeof(float), stuff, 0, nullptr, nullptr);
+		for (int i = 0; i < 25; i++)
+		{
+			for (int j = 0; j < 25; j++)
+			{
+				std::cout << stuff[i * 25 + j] << " ";
+			}
+			std::cout << "\n";
+		}
 	}

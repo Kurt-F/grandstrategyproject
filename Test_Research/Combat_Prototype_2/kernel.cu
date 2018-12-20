@@ -9,4 +9,5 @@
 int main()
 {
 	ArmyManagerSingleton *singleton = ArmyManagerSingleton::get_instance();
+	singleton->initArmy(25);
 }

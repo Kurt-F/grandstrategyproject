@@ -9,7 +9,8 @@
 #include <iostream>
 #include <vector>
 #include <stdio.h>
-
+#include <iostream>
+#include <string>
 
 
 	std::string OpenCLContext::GetPlatformName(cl_platform_id id)
@@ -22,6 +23,21 @@
 			const_cast<char*> (result.data()), nullptr);
 		return result;
 	}
+
+	std::string GetDeviceName(cl_device_id id)
+	{
+		size_t size = 0;
+		clGetDeviceInfo(id, CL_DEVICE_NAME, 0, nullptr, &size);
+
+		std::string result;
+		result.resize(size);
+		clGetDeviceInfo(id, CL_DEVICE_NAME, size,
+			const_cast<char*> (result.data()), nullptr);
+
+		return result;
+	}
+
+
 	 OpenCLContext::OpenCLContext() {
 		cl_uint platformIdCount = 0;
 		// Get platform information
@@ -31,6 +47,11 @@
 			std::cerr << "No OpenCL platform found" << std::endl;
 			exit(1);
 		}
+
+		else {
+			std::cout << "Found " << platformIdCount << " platform(s)" << std::endl;
+		}
+
 		std::vector<cl_platform_id> platformIds(platformIdCount);
 		clGetPlatformIDs(platformIdCount, platformIds.data(), nullptr);
 
@@ -41,6 +62,9 @@
 		if (deviceIdCount == 0) {
 			std::cerr << "No OpenCL devices found" << std::endl;
 			exit(1);
+		}
+		else {
+			std::cout << "Found " << deviceIdCount << " device(s)" << std::endl;
 		}
 
 		std::vector<cl_device_id> deviceIds(deviceIdCount);
@@ -56,6 +80,9 @@
 		cl_int error = CL_SUCCESS;
 		OpenCLContext::context = clCreateContext(contextProperties, deviceIdCount,
 			deviceIds.data(), nullptr, nullptr, &error);
+		for (cl_uint i = 0; i < deviceIdCount; ++i) {
+			std::cout << GetDeviceName(deviceIds[i]) << std::endl;
+		}
 	}
 
 	 cl_uint OpenCLContext::getDeviceIdCount()

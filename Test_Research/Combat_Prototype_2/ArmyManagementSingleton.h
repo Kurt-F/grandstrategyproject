@@ -28,12 +28,13 @@ private:
 	std::map<int, int> index_to_id;
 	cl_mem* armies;
 	cl_program program;
+	cl_command_queue queue;
 
 
 public:
 	static ArmyManagerSingleton* get_instance();
 	Army* get_army(int index);
-	void initArmy(int index, int size);
+	void initArmy(int size);
 
 };
 #endif // ! ARMYMANAGMENT
