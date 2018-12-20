@@ -22,7 +22,7 @@
 			const_cast<char*> (result.data()), nullptr);
 		return result;
 	}
-	 cl_context OpenCLContext::CreateCLContext() {
+	 OpenCLContext::OpenCLContext() {
 		cl_uint platformIdCount = 0;
 		// Get platform information
 		clGetPlatformIDs(0, nullptr, &platformIdCount);
@@ -34,7 +34,7 @@
 		std::vector<cl_platform_id> platformIds(platformIdCount);
 		clGetPlatformIDs(platformIdCount, platformIds.data(), nullptr);
 
-		cl_uint deviceIdCount = 0;
+		OpenCLContext::deviceIdCount = 0;
 		clGetDeviceIDs(platformIds[0], CL_DEVICE_TYPE_ALL, 0, nullptr,
 			&deviceIdCount);
 
@@ -46,7 +46,7 @@
 		std::vector<cl_device_id> deviceIds(deviceIdCount);
 		clGetDeviceIDs(platformIds[0], CL_DEVICE_TYPE_ALL, deviceIdCount,
 			deviceIds.data(), nullptr);
-
+		OpenCLContext::deviceIds = deviceIds;
 		const cl_context_properties contextProperties[] =
 		{
 			CL_CONTEXT_PLATFORM, reinterpret_cast<cl_context_properties> (platformIds[0]),
@@ -54,9 +54,21 @@
 		};
 
 		cl_int error = CL_SUCCESS;
-		cl_context context = clCreateContext(contextProperties, deviceIdCount,
+		OpenCLContext::context = clCreateContext(contextProperties, deviceIdCount,
 			deviceIds.data(), nullptr, nullptr, &error);
-
-		std::cout << "Context created" << std::endl;
-		return context;
 	}
+
+	 cl_uint OpenCLContext::getDeviceIdCount()
+	 {
+		 return deviceIdCount;
+	 }
+	
+	 std::vector<cl_device_id> OpenCLContext::getDeviceIds()
+	 {
+		 return deviceIds;
+	 }
+
+	 cl_context OpenCLContext::GetClContext()
+	 {
+		 return context;
+	 }

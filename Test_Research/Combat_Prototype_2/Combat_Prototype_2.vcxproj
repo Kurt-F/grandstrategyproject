@@ -92,6 +92,9 @@
     <ClCompile Include="OpenCLContext.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Army.cl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 10.0.targets" />

@@ -16,7 +16,13 @@
 class OpenCLContext {
 private:
 	std::string GetPlatformName(cl_platform_id id);
+	cl_uint deviceIdCount;
+	std::vector<cl_device_id> deviceIds;
+	cl_context context;
 public:
-	static cl_context CreateCLContext();
+	OpenCLContext();
+	cl_context GetClContext();
+	cl_uint getDeviceIdCount();
+	std::vector<cl_device_id> getDeviceIds();
 };
 #endif // ! OpenCLContext

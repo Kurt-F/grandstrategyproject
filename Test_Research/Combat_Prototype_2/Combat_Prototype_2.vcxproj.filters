@@ -10,6 +10,9 @@
     <Filter Include="Source">
       <UniqueIdentifier>{9f5eebfe-e8da-4d2e-b674-78c507204e20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Kernels">
+      <UniqueIdentifier>{a66e6eb4-9c56-462f-8611-49342f47f826}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Army.h">
@@ -38,5 +41,10 @@
     <ClCompile Include="ArmyManagementSingleton.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Army.cl">
+      <Filter>Kernels</Filter>
+    </None>
   </ItemGroup>
 </Project>
