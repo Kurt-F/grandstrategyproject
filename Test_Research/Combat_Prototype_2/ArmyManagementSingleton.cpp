@@ -6,10 +6,8 @@
 #include <list>
 #include "ArmyManagementSingleton.h"
 
-#define ARMY_MAX_SIZE 25;
-#define UNIT_LENGTH 25;
-#define MAX_NUM_ARMIES 20000;
 
+ArmyManagerSingleton* ArmyManagerSingleton::instance;
 
  ArmyManagerSingleton::ArmyManagerSingleton() {
 		int limit = MAX_NUM_ARMIES;

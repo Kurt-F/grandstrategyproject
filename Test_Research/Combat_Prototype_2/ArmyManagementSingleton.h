@@ -1,12 +1,12 @@
-#pragma once
+#ifndef  ARMYMANAGER
+#define ARMYMANAGER
+
 #ifdef APPLE
 #include "OpenCL/opencl.h"
 #else
 #include "CL/cl.h"
 #endif
 
-#ifndef  ARMYMANAGMENT
-#define ARMYMANAGMENT
 
 
 #include <list>
@@ -20,11 +20,12 @@
 class ArmyManagerSingleton {
 private:
 	cl_context context;
+	static ArmyManagerSingleton* instance;
 	ArmyManagerSingleton();
 	std::list<int> used_indices;
 	std::list<int> free_indices;
 	cl_mem* armies;
-	static ArmyManagerSingleton* instance;
+
 public:
 	static ArmyManagerSingleton* get_instance();
 	Army* get_army(int index);
