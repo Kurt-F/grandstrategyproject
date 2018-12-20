@@ -12,11 +12,12 @@
     <None Include="saxpy.cl">
       <Filter>kernels</Filter>
     </None>
+    <None Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArmyManagerSingleton.cpp" />
     <ClCompile Include="Unit.cpp" />
-    <ClCompile Include="Army.cpp" />
     <ClCompile Include="OpenCLContext.cpp" />
+    <ClCompile Include="fgsDSf.cpp" />
   </ItemGroup>
 </Project>

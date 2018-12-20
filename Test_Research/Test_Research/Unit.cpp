@@ -1,3 +1,7 @@
+#ifndef UNIT
+#define UNIT
+
+
 #define EQ_RIFLE 0;
 #define EQ_BODY_ARMOR 1;
 #define EQ_BULLETS 2;
@@ -21,4 +25,10 @@ public:
 	void SetAttributes(float* a) {
 		this->attributes = a;
 	}
+
+	int GetSize()
+	{
+		return num_attr;
+	}
 };
+#endif // !UNIT

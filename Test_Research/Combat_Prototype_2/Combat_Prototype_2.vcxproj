@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1A1E1950-D9DD-4B0E-9435-613299BEA263}</ProjectGuid>
-    <RootNamespace>Test_Research</RootNamespace>
+    <ProjectGuid>{104C88F6-E3B0-4E86-B1F7-F9A143878133}</ProjectGuid>
+    <RootNamespace>Combat_Prototype_2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Combat_Prototype</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -82,12 +81,14 @@
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Main.cpp" />
-    <None Include="saxpy.cl" />
+    <ClInclude Include="Army.h" />
+    <ClInclude Include="ArmyManagementSingleton.h" />
+    <ClInclude Include="OpenClContext.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fgsDSf.cpp" />
-    <ClCompile Include="ArmyManagerSingleton.cpp" />
+    <ClCompile Include="Army.cpp" />
+    <ClCompile Include="ArmyManagementSingleton.cpp" />
     <ClCompile Include="OpenCLContext.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>

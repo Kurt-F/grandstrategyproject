@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test_Research", "Test_Research\Test_Research.vcxproj", "{1A1E1950-D9DD-4B0E-9435-613299BEA263}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combat_Prototype", "Test_Research\Test_Research.vcxproj", "{1A1E1950-D9DD-4B0E-9435-613299BEA263}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combat_Prototype_2", "Combat_Prototype_2\Combat_Prototype_2.vcxproj", "{104C88F6-E3B0-4E86-B1F7-F9A143878133}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1A1E1950-D9DD-4B0E-9435-613299BEA263}.Debug|x64.Build.0 = Debug|x64
 		{1A1E1950-D9DD-4B0E-9435-613299BEA263}.Release|x64.ActiveCfg = Release|x64
 		{1A1E1950-D9DD-4B0E-9435-613299BEA263}.Release|x64.Build.0 = Release|x64
+		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Debug|x64.ActiveCfg = Debug|x64
+		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Debug|x64.Build.0 = Debug|x64
+		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Release|x64.ActiveCfg = Release|x64
+		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
