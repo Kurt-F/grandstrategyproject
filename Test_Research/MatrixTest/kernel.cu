@@ -12,6 +12,14 @@ int* multiplyMatrices(int* matrx_a, int* matrix_b, int columns_a, int rows_a, in
 int*multiplyMatricesOpenCL(int* matrx_a, int* matrix_b, int columns_a, int rows_a, int columns_b, int rows_b);
 void printMatrix(int *matrix, int columns, int rows);
 
+void CheckError(cl_int error)
+{
+	if (error != CL_SUCCESS) {
+		std::cerr << "OpenCL call failed with error " << error << std::endl;
+		std::exit(1);
+	}
+}
+
 
 std::string LoadKernel(const char* name)
 {
@@ -30,6 +38,7 @@ cl_program CreateProgram(const std::string& source,
 
 	cl_int error = 0;
 	cl_program program = clCreateProgramWithSource(context, 1, sources, lengths, &error);
+
 	return program;
 }
 
@@ -64,6 +73,7 @@ int main()
 		for (int j = 0; j < num_columns_a; j++)
 		{
 			matrix_a[(i * num_columns_a) + j] = i + j * i + j;
+		//matrix_a[(i * num_columns_a) + j] = 1;
 		}
 	}
 	matrix_b = new int[num_rows_b * num_columns_b];
@@ -72,21 +82,23 @@ int main()
 		for (int j = 0; j < num_columns_b; j++)
 		{
 			matrix_b[(i * num_columns_b) + j] = j * 3 + 1 + i;
+			//matrix_b[(i * num_columns_a) + j] = 1;
 		}
 	}
 	std::cout << "Do you want to multiply these matrices using OpenCl or regular C++?(0 or 1)\n";
 	std::cin >> openCL_or_CPP;
+	printMatrix(matrix_a, num_columns_a, num_rows_a);
+	printMatrix(matrix_b, num_columns_b, num_rows_b);
 	if (openCL_or_CPP == 0)
 	{
-
+		matrix_output = multiplyMatricesOpenCL(matrix_a, matrix_b, num_columns_a, num_rows_a, num_columns_b, num_rows_b);
+		printMatrix(matrix_output, num_columns_b, num_rows_a);
 	}
 
 	else
 	{
-	printMatrix(matrix_a, num_columns_a, num_rows_a);
-	printMatrix(matrix_b, num_columns_b, num_rows_b);
-	 matrix_output = multiplyMatrices(matrix_a, matrix_b, num_columns_a, num_rows_a, num_columns_b, num_rows_b);
-	  printMatrix(matrix_output, num_columns_b, num_rows_a);
+    matrix_output = multiplyMatrices(matrix_a, matrix_b, num_columns_a, num_rows_a, num_columns_b, num_rows_b);
+	printMatrix(matrix_output, num_columns_b, num_rows_a);
 	}
 	return 0; 
 }
@@ -94,16 +106,31 @@ int main()
 
 int*multiplyMatricesOpenCL(int* matrix_a, int* matrix_b, int columns_a, int rows_a, int columns_b, int rows_b)
 {
-	OpenCLContext *context = new OpenCLContext();
+	size_t global_work_size[3];
+	global_work_size[0] = rows_a * columns_b;
+	global_work_size[1] = 0;
+	global_work_size[2] = 0;
+	int *matrix_out = new int[rows_a * columns_b];
+	OpenCLContext context = OpenCLContext();
 	cl_int error = 0;
-	cl_mem buf_matrix_a = clCreateBuffer(context->GetClContext(), CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(int) * columns_a * rows_a, matrix_a, &error);
-	cl_mem buf_matrix_b = clCreateBuffer(context->GetClContext(), CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR, sizeof(int) * columns_b * rows_b, matrix_b, &error);
-	cl_mem out_buffer = clCreateBuffer(context->GetClContext(), CL_MEM_WRITE_ONLY, sizeof(int) * rows_a * columns_b, nullptr, &error);
-	cl_program program = CreateProgram("multiply.cl", context->GetClContext());
-	cl_kernel kernel = clCreateKernel(program, "MULITPLY", &error);
-	clSetKernelArg(kernel, 0, sizeof(cl_mem), buf_matrix_a);
-	clSetKernelArg(kernel, 1, sizeof(cl_mem), buf_matrix_b);
-	clSetKernelArg(kernel, 2, sizeof(cl_mem), out_buffer);
+	cl_program program = CreateProgram(LoadKernel("multiply.cl"), context.GetClContext());
+	int b = clBuildProgram(program, context.getDeviceIdCount(), context.getDeviceIds().data(), nullptr, nullptr, nullptr);
+	cl_kernel kernel = clCreateKernel(program, "MULT", &error);
+	cl_mem buf_matrix_a = clCreateBuffer(context.GetClContext(), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(int) * columns_a * rows_a, matrix_a, &error);
+	cl_mem buf_matrix_b = clCreateBuffer(context.GetClContext(), CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(int) * columns_b * rows_b, matrix_b, &error);
+	cl_mem out_buffer = clCreateBuffer(context.GetClContext(), CL_MEM_READ_WRITE | CL_MEM_USE_HOST_PTR, sizeof(int) * rows_a * columns_b, matrix_out, &error);
+	const int ROWS_INPUT = rows_a;
+	const int COLUMNS_INPUT = columns_b;
+	CheckError(clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf_matrix_a));
+	CheckError(clSetKernelArg(kernel, 1, sizeof(cl_mem), &buf_matrix_b));
+	CheckError(clSetKernelArg(kernel, 2, sizeof(cl_mem), &out_buffer));
+	CheckError(clSetKernelArg(kernel, 3, sizeof(int), &columns_a));
+	CheckError(clSetKernelArg(kernel, 4, sizeof(int), &rows_a));
+	CheckError(clSetKernelArg(kernel, 5, sizeof(int), &columns_b));
+	cl_command_queue queue = clCreateCommandQueue(context.GetClContext(), context.getDeviceIds().data()[0], 0, &error);
+	int a = clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, global_work_size, nullptr, 0, nullptr, nullptr);
+	clEnqueueReadBuffer(queue, out_buffer, true, 0, global_work_size[0] * sizeof(int), matrix_out, 0, nullptr, nullptr);
+	return matrix_out;
 }
 
 int* multiplyMatrices(int* matrix_a, int* matrix_b, int columns_a,int rows_a, int columns_b, int rows_b)

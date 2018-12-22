@@ -43,7 +43,7 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 
  ArmyManagerSingleton::ArmyManagerSingleton() {
 		
-	 int limit = MAX_NUM_ARMIES;
+	    int limit = MAX_NUM_ARMIES;
 		for (int i = 0; i < limit; i++) {
 			free_indices.push_back(i);
 		}
