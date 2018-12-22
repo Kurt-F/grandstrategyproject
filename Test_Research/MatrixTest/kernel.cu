@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <string>
 #include "OpenCLContext.h"
 #ifdef __APPLE__
 #include "OpenCL/opencl.h"
@@ -10,7 +11,7 @@
 
 int* multiplyMatrices(int* matrx_a, int* matrix_b, int columns_a, int rows_a, int columns_b, int rows_b);
 int*multiplyMatricesOpenCL(int* matrx_a, int* matrix_b, int columns_a, int rows_a, int columns_b, int rows_b);
-void printMatrix(int *matrix, int columns, int rows);
+void printMatrix(int *matrix, int columns, int rows, std::string file_name = "");
 
 void CheckError(cl_int error)
 {
@@ -92,13 +93,13 @@ int main()
 	if (openCL_or_CPP == 0)
 	{
 		matrix_output = multiplyMatricesOpenCL(matrix_a, matrix_b, num_columns_a, num_rows_a, num_columns_b, num_rows_b);
-		printMatrix(matrix_output, num_columns_b, num_rows_a);
+		printMatrix(matrix_output, num_columns_b, num_rows_a, "OPENCL.txt");
 	}
 
 	else
 	{
     matrix_output = multiplyMatrices(matrix_a, matrix_b, num_columns_a, num_rows_a, num_columns_b, num_rows_b);
-	printMatrix(matrix_output, num_columns_b, num_rows_a);
+	printMatrix(matrix_output, num_columns_b, num_rows_a, "NOTOPENCL.txt");
 	}
 	return 0; 
 }
@@ -129,7 +130,7 @@ int*multiplyMatricesOpenCL(int* matrix_a, int* matrix_b, int columns_a, int rows
 	CheckError(clSetKernelArg(kernel, 5, sizeof(int), &columns_b));
 	cl_command_queue queue = clCreateCommandQueue(context.GetClContext(), context.getDeviceIds().data()[0], 0, &error);
 	int a = clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, global_work_size, nullptr, 0, nullptr, nullptr);
-	clEnqueueReadBuffer(queue, out_buffer, true, 0, global_work_size[0] * sizeof(int), matrix_out, 0, nullptr, nullptr);
+	int c = clEnqueueReadBuffer(queue, out_buffer, true, 0, global_work_size[0] * sizeof(int), matrix_out, 0, nullptr, nullptr);
 	return matrix_out;
 }
 
@@ -158,9 +159,23 @@ int* multiplyMatrices(int* matrix_a, int* matrix_b, int columns_a,int rows_a, in
 	return matrix_output;
 }
 
-void printMatrix(int *matrix, int columns, int rows)
+void printMatrix(int *matrix, int columns, int rows, std::string file_name)
 {
-	if (columns > 10000 | rows > 10000)
+	if (file_name.size() != 0)
+	{
+		std::ofstream myfile; 
+		myfile.open(file_name);
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+			{
+				myfile << matrix[(i * columns) + j] << " ";
+			}
+			myfile << "\n";
+		}
+		myfile.close();
+	}
+	if (columns > 10 || rows > 10)
 	{
 		return;
 	}
