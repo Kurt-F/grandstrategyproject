@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combat_Prototype", "Test_Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combat_Prototype_2", "Combat_Prototype_2\Combat_Prototype_2.vcxproj", "{104C88F6-E3B0-4E86-B1F7-F9A143878133}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatrixTest", "MatrixTest\MatrixTest.vcxproj", "{2DEDE5C4-EA93-4AC5-AA85-19120C19164C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Debug|x64.Build.0 = Debug|x64
 		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Release|x64.ActiveCfg = Release|x64
 		{104C88F6-E3B0-4E86-B1F7-F9A143878133}.Release|x64.Build.0 = Release|x64
+		{2DEDE5C4-EA93-4AC5-AA85-19120C19164C}.Debug|x64.ActiveCfg = Debug|x64
+		{2DEDE5C4-EA93-4AC5-AA85-19120C19164C}.Debug|x64.Build.0 = Debug|x64
+		{2DEDE5C4-EA93-4AC5-AA85-19120C19164C}.Release|x64.ActiveCfg = Release|x64
+		{2DEDE5C4-EA93-4AC5-AA85-19120C19164C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

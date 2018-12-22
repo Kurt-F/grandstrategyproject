@@ -6,6 +6,8 @@
 #include <list>
 #include <fstream>
 #include "ArmyManagementSingleton.h"
+#include <chrono>
+#include <ctime>
 
 void CheckError(cl_int error)
 {
@@ -61,7 +63,7 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 
 		CheckError(clBuildProgram(program, context.getDeviceIdCount(), context.getDeviceIds().data(), nullptr, nullptr, nullptr));
 		queue = clCreateCommandQueue(context.GetClContext(), context.getDeviceIds().data()[0],
-			0, &error);
+			CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &error);
 		CheckError(error);
 	}
 
@@ -83,15 +85,27 @@ ArmyManagerSingleton* ArmyManagerSingleton::instance;
 		const size_t globalWorkSize[] = { 25, 0, 0 };
 		static const int UNIT_SIZE = 25; 
 		std::cout << "Start\n";
+		auto start = std::chrono::steady_clock::now();
 		for (int i = 0; i < max_num_armies; i++)
 		{
 			kernels[i] = clCreateKernel(program, "INIT", &error);
 			CheckError(error);
 			clSetKernelArg(kernels[i], 0, sizeof(cl_mem), &armies[i]);
 			clSetKernelArg(kernels[i], 1, sizeof(int), &UNIT_SIZE);
-			CheckError(clEnqueueNDRangeKernel(queue, kernels[i], 1, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr)); 
+			
 		}
-		std::cout << "End\n";
+		auto end = std::chrono::high_resolution_clock::now();
+		std::cout << std::chrono::duration_cast<std:: chrono::seconds>(end - start).count() << std::endl;
+			std::cout << "End\n";
+			for (int i = 0; i < max_num_armies; i++)
+			{
+				CheckError(clEnqueueNDRangeKernel(queue, kernels[i], 1, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr));
+			}
+
+			for (int i = 0; i < max_num_armies; i++)
+			{
+				CheckError(clEnqueueNDRangeKernel(queue, kernels[i], 1, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr));
+			}
 		
 		
 		CheckError(error);

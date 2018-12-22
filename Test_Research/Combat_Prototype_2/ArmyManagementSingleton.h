@@ -15,7 +15,7 @@
 
 #define ARMY_MAX_SIZE 25;
 #define UNIT_LENGTH 25;
-#define MAX_NUM_ARMIES 20000;
+#define MAX_NUM_ARMIES 500000;
 
 class ArmyManagerSingleton {
 private:

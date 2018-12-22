@@ -1,0 +1,1 @@
+__kernel void MULTIPLY(__global float *army, int unit_size)
