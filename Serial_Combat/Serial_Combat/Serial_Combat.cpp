@@ -8,7 +8,7 @@
 
 int main()
 {
-	// Setting up some pre-built units
+	// Setting up some pre-built units			
 	// -------------------------------
 	std::string Unit_1_Name = "Leg_Infantry";
 	float* Unit1 = new float[UNIT_ATTR_COUNT]
@@ -19,8 +19,8 @@ int main()
 	// -------------------------------
 	int att_army_size = 0;
 	int def_army_size = 0;	
-	Unit** attacking_units = new Unit*[25];
-	Unit** defending_units = new Unit*[25];
+	Unit* attacking_units = new Unit[MAX_UNITS_IN_ARMY];
+	Unit* defending_units = new Unit[MAX_UNITS_IN_ARMY];
 	bool selecting = true;
 	while (selecting) {
 		if (att_army_size >= 25 && def_army_size >= 25) {
@@ -50,12 +50,12 @@ int main()
 
 		if (stance) {
 			// add to attacker army
-			attacking_units[att_army_size] = unit;
+			attacking_units[att_army_size] = *unit;
 			att_army_size++;
 		}
 		else {
 			// add to defender army
-			defending_units[def_army_size] = unit;
+			defending_units[def_army_size] = *unit;
 			def_army_size++;
 		}
 
@@ -71,7 +71,7 @@ int main()
 	ArmyManagerSingleton* master = ArmyManagerSingleton::Get_Instance();
 	for (int i = 0; i < att_army_size; i++) 
 	{
-		master->AddEngagement(attacking_units[i], defending_units[i % att_army_size]);
+		master->AddEngagement(&attacking_units[i], &defending_units[i % att_army_size]);
 	}
 	// Resolve engagements
 	bool ongoing = true;
@@ -83,7 +83,7 @@ int main()
 	bool winner = false;
 	for(int i = 0; i < att_army_size; i++)
 	{
-		if (!attacking_units[i]->Check_Flag(UNIT_DEAD) || !attacking_units[i]->Check_Flag(UNIT_RETREAT)) {
+		if (!attacking_units[i].Check_Flag(UNIT_DEAD) || !attacking_units[i].Check_Flag(UNIT_RETREAT)) {
 			winner = true;
 		}
 	}
