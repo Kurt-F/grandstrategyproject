@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{0CC75378-388F-4EF1-86A7-4DC6E4A36EDB}</ProjectGuid>
+    <ProjectGuid>{256360EE-F140-4DED-A267-2F74E36787F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CombatSystem</RootNamespace>
+    <RootNamespace>GSOCLMapPrototype</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,7 +154,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CombatSystem.cpp" />
+    <ClCompile Include="GSOCLMapPrototype.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
