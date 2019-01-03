@@ -2,7 +2,7 @@
 #include "Population.h"	
 #include "Connection.h"
 // Terrain constants
-#define FOOTHILS 0
+#define FOOTHILLS 0
 #define DESERT 1
 #define DECIDUOUS 2
 // Misc constants

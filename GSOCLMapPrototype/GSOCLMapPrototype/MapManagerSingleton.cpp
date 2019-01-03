@@ -37,5 +37,6 @@ bool MapManagerSingleton::Add_Node(Map_Node m)
 	if(number_of_nodes == MAX_NUMBER_OF_NODES)
 		return false;
 
+
 	return true;
 }

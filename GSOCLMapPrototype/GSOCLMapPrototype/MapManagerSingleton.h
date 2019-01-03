@@ -7,6 +7,8 @@ private:
 	int number_of_nodes;
 	Map_Node* map;
 	MapManagerSingleton();
+	int number_of_nodes;
+	Map_Node 
 	~MapManagerSingleton();
 public: 
 	static MapManagerSingleton Get_Instance();
