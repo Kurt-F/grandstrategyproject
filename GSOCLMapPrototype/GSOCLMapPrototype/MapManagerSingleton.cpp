@@ -5,6 +5,7 @@
 MapManagerSingleton::MapManagerSingleton()
 {
 	this->map = new Map_Node[MAX_NUMBER_OF_NODES];
+	this->number_of_nodes = 0;
 }
 
 
@@ -33,5 +34,8 @@ bool MapManagerSingleton::Create_Connection(Map_Node a, Map_Node b)
 
 bool MapManagerSingleton::Add_Node(Map_Node m)
 {
-	return false;
+	if(number_of_nodes == MAX_NUMBER_OF_NODES)
+		return false;
+
+	return true;
 }

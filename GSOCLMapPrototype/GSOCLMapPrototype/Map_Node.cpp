@@ -27,10 +27,19 @@ bool Map_Node::Add_Connection(Connection c)
 		return false;
 	}
 	this->connections[number_of_connections] = c;
+	number_of_connections++;
 	return true;
 }
 
 bool Map_Node::Has_Connection(Map_Node m)
 {
+	Connection c = this->connections[0];
+	while(&c != nullptr)
+	{
+		if (c.dest_map_id == m.Get_ID())
+		{
+			return true;
+		}
+	}
 	return false;
 }
