@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Map_Node.h"
 
+int Map_Node::number_of_nodes;
 
 Map_Node::Map_Node()
 {

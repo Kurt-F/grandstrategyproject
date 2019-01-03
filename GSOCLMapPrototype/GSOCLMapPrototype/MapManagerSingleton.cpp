@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "MapManagerSingleton.h"
 
+MapManagerSingleton *MapManagerSingleton::instance;
 
 MapManagerSingleton::MapManagerSingleton()
 {
 	this->map = new Map_Node[MAX_NUMBER_OF_NODES];
 	this->number_of_nodes = 0;
+	instance = this; 
 }
 
 
@@ -34,9 +36,8 @@ bool MapManagerSingleton::Create_Connection(Map_Node a, Map_Node b)
 
 bool MapManagerSingleton::Add_Node(Map_Node m)
 {
-	if(number_of_nodes == MAX_NUMBER_OF_NODES)
+	if(this->number_of_nodes == MAX_NUMBER_OF_NODES)
 		return false;
-
-
+	this->number_of_nodes++;
 	return true;
 }
