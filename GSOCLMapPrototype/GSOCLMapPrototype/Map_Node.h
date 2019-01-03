@@ -15,6 +15,7 @@ class Map_Node
 private:
 	static int number_of_nodes;
 	int map_id;
+	int area;
 	unsigned char terrain;
 	unsigned char number_of_connections;
 	Connection* connections;
