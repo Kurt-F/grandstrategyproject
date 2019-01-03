@@ -17,28 +17,23 @@
 // Political constants
 #define POL_CONSERVATIVE 0
 #define POL_LIBERAL 1
-class Population
+
+#define NUM_POP_ATTRIBUTES 6
+struct Population
 {
-private:
+	// ATTRIBUTES 
 	int size; // Number of people in this population
 	unsigned char flags; // Reserved for later
 	unsigned char culture; // See above constants
 	unsigned char profession;
 	unsigned char religion;
 	unsigned char ideology;
-	float* needs; // The index of each value corresponds to its type, see above constants
 	float birth_rate; // Average number of children born per woman per period 
-public:
-	Population(
-		int s,
-		unsigned char f,
-		unsigned char c,
-		unsigned char p,
-		unsigned char r,
-		unsigned char i,
-		float* ns,
-		float b
-	);
-	~Population();
+	// END ATTRIBUTES
+	// Population needs
+	float* needs; // The index of each value corresponds to its type, see above constants
+	// Change "queue"
+	int num_changes;
+	float* changes; // array with same number of elements as pop has attributes. 
 };
 
