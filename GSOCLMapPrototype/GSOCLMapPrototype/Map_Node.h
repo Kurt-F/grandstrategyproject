@@ -26,5 +26,6 @@ public:
 	int Get_ID();
 	bool Add_Connection(Connection c);
 	bool Has_Connection(Map_Node m);
+	
 };
 

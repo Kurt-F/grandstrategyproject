@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MapManagerSingleton.h"
+#include <nlohmann/json.hpp>
 
 MapManagerSingleton *MapManagerSingleton::instance;
 

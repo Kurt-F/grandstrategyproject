@@ -1,0 +1,71 @@
+{
+  "Map": 
+  {
+    "Node_List": [
+      {
+        "name": "Province 1",
+        "map_id": 0,
+        "area": 1200,
+        "terrain": 0,
+        "number_of_connections": 3,
+        "connections": [
+          {
+            "dest_map_id": 123,
+            "travel_cost": 12,
+            "freight_cost": 10
+          }
+        ],
+        "populations": [
+          {
+            "size": 120000,
+            "flags": 3,
+            "culture": 2,
+            "profession": 1,
+            "religion": 0,
+            "ideology": 1,
+            "birth_rate": 1.2,
+            "needs": {
+              "GRAIN": 100,
+              "FRUIT": 200,
+              "MEAT": 20,
+              "IRON": 0,
+              "COAL": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Province 2",
+        "map_id": 1,
+        "area": 1200,
+        "terrain": 0,
+        "number_of_connections": 3,
+        "connections": [
+          {
+            "dest_map_id": 123,
+            "travel_cost": 12,
+            "freight_cost": 10
+          }
+        ],
+        "populations": [
+          {
+            "size": 120000,
+            "flags": 3,
+            "culture": 2,
+            "profession": 1,
+            "religion": 0,
+            "ideology": 1,
+            "birth_rate": 1.2,
+            "needs": {
+              "GRAIN": 100,
+              "FRUIT": 200,
+              "MEAT": 20,
+              "IRON": 0,
+              "COAL": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

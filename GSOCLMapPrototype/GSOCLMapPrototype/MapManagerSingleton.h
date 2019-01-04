@@ -4,9 +4,9 @@ class MapManagerSingleton
 {
 private:
 	static MapManagerSingleton* instance;
-	int number_of_nodes;
 	Map_Node* map;
 	MapManagerSingleton();
+	int number_of_nodes;
 	~MapManagerSingleton();
 public: 
 	MapManagerSingleton Get_Instance();
