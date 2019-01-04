@@ -91,8 +91,7 @@ bool Tests::Add_Nodes(bool print_results)
 	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
 	for (int i = 0; i < 10; i++)
 	{
-		Map_Node *mp;
-		mp = new Map_Node();
+		Map_Node* mp = new Map_Node();
 		manager->Add_Node(mp);
 	}
 	for (int i = 0; i < 10; i++)

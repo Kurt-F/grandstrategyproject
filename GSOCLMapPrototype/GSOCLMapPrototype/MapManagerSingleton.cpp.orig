@@ -9,12 +9,16 @@ MapManagerSingleton *MapManagerSingleton::instance;
 
 MapManagerSingleton::MapManagerSingleton()
 {
+<<<<<<< HEAD
+	this->map = new Map_Node*[MAX_NUMBER_OF_NODES]; // This actually creates MAX_NUMBER etc of errays
+=======
 	this->map = new Map_Node*[MAX_NUMBER_OF_NODES];
 	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
 	{
 		map[i] = nullptr;
 	}
 	this->number_of_nodes = 0;
+>>>>>>> fc5f9dd2cef546862fba3d2ef9592bda090a74c5
 }
 
 MapManagerSingleton::~MapManagerSingleton()
@@ -75,13 +79,23 @@ bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
 	if(m->Get_ID() >= MAX_NUMBER_OF_NODES)
 		return false;
-	this->map[m->Get_ID()] = m;
+<<<<<<< HEAD
+	this->map[m.Get_ID()] = new Map_Node();
+	this->map[m.Get_ID()] = &m;
+	this->number_of_nodes++;
+=======
+		this->map[m->Get_ID()] = m;
+>>>>>>> fc5f9dd2cef546862fba3d2ef9592bda090a74c5
 	return true;
 }
 
-Map_Node* MapManagerSingleton::Get_Node(int id)
+Map_Node* MapManagerSingleton::Get_Node(int index)
 {
+<<<<<<< HEAD
+	return (map[index]);
+=======
 	return (map[id]);
+>>>>>>> fc5f9dd2cef546862fba3d2ef9592bda090a74c5
 }
 
 bool MapManagerSingleton::Remove_Node(int id)
@@ -91,7 +105,11 @@ bool MapManagerSingleton::Remove_Node(int id)
 	int total_connections = node->Get_Number_Of_Connections();
 	for (int i = 0; i < total_connections; i++)
 	{
+<<<<<<< HEAD
+		(*map[node->Get_ID_Of_Connection(i)]).Delete_Connection(id);
+=======
 		map[node->Get_ID_Of_Connection(i)]->Delete_Connection(id);
+>>>>>>> fc5f9dd2cef546862fba3d2ef9592bda090a74c5
 	}
 	while (node->Get_Number_Of_Connections() != 0)
 	{

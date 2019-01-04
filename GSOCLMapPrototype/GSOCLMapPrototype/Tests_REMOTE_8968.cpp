@@ -43,27 +43,6 @@ bool Tests::Run_Map_Tests(bool print_results, bool recursive_print_results)
 	return map_tests;
 }
 
-bool Tests::Run_FIO_Tests(bool print_results, bool recursive_print_results)
-{
-	bool map_tests = true;
-	map_tests = Create_MapManagerSingleton(recursive_print_results) && map_tests;
-	map_tests = Add_Nodes(recursive_print_results) && map_tests;
-	map_tests = Create_Connections(recursive_print_results) && map_tests;
-	if (print_results)
-	{
-		if (map_tests)
-		{
-			Print_Test_Results(map_tests, "map tests", "they worked");
-		}
-		else
-		{
-			Print_Test_Results(map_tests, "map tests", "did not work");
-		}
-	}
-	return map_tests;
-
-}
-
 bool Tests::Create_MapManagerSingleton(bool print_results)
 {
 	try
