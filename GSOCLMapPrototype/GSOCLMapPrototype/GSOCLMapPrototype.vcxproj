@@ -151,7 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp" />
     <ClInclude Include="Connection.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="MapManagerSingleton.h" />
     <ClInclude Include="Map_Node.h" />
     <ClInclude Include="pch.h" />
@@ -159,7 +161,6 @@
     <ClInclude Include="Population.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GSOCLMapPrototype.cpp" />
     <ClCompile Include="MapManagerSingleton.cpp" />
     <ClCompile Include="Map_Node.cpp" />
     <ClCompile Include="pch.cpp">

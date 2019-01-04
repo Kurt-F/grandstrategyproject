@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MapManagerSingleton.h"
-#include <nlohmann/json.hpp>
+#include "json.hpp"
 
 MapManagerSingleton *MapManagerSingleton::instance;
 
@@ -81,4 +81,14 @@ bool MapManagerSingleton::Remove_Node(int id)
 	}
 	node->DeleteMapNode();
 	return true;
+}
+
+bool MapManagerSingleton::Save_Map()
+{
+	return false;
+}
+
+bool MapManagerSingleton::Load_Map()
+{
+	return false;
 }

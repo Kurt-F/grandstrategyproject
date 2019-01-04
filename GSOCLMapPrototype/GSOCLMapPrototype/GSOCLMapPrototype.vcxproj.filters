@@ -33,12 +33,15 @@
     <ClInclude Include="MapManagerSingleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\json.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GSOCLMapPrototype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Map_Node.cpp">
