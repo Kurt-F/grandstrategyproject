@@ -23,15 +23,65 @@ bool Tests::Run_All_Tests(bool recursive_print_results)
 
 bool Tests::Run_Map_Tests(bool print_results, bool recursive_print_results)
 {
-	return true;
+	bool map_tests = true;
+	map_tests = Create_MapManagerSingleton(recursive_print_results) && map_tests;
+	map_tests = Add_Nodes(recursive_print_results) && map_tests;
+	if (print_results)
+	{
+		if (map_tests)
+		{
+			Print_Test_Results(map_tests, "map tests", "they worked");
+		}
+		else
+		{
+			Print_Test_Results(map_tests, "map tests", "did not work");
+		}
+	}
+	return map_tests;
 }
 
 bool Tests::Create_MapManagerSingleton(bool print_results)
 {
+	try
+	{
 		MapManagerSingleton *i = MapManagerSingleton::Get_Instance();
 		MapManagerSingleton *j = MapManagerSingleton::Get_Instance();
-
-		
+		if (print_results)
+		{
+			Print_Test_Results(true, "Create Map Manager", "it works");
+		}
 		return true;
+	}
+	catch (...)
+	{
+		if (print_results)
+		{
+			Print_Test_Results(false, "Create Map Manager", "it does not work");
+		}
+		return false; 
+	}
 }
 
+bool Tests::Add_Nodes(bool print_results)
+{
+	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	for (int i = 0; i < 10; i++)
+	{
+		manager->Add_Node(*(new Map_Node()));
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		if (manager->Get_Node(i).Get_ID() != i)
+		{
+			Print_Test_Results(false, "Add Nodes", "nodes added incorrectly");
+			return false;
+		}
+	}
+	Print_Test_Results(true, "Add Nodes", "nodes added correctly");
+	return true;
+}
+
+bool Tests::Create_Connections(bool print_results)
+{
+
+}

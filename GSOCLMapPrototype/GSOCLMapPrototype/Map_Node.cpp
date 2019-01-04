@@ -26,7 +26,7 @@ bool Map_Node::DeleteMapNode()
 
 int Map_Node::Get_ID()
 {
-	return 0;
+	return this->map_id;
 }
 
 int Map_Node::Get_Number_Of_Connections()
