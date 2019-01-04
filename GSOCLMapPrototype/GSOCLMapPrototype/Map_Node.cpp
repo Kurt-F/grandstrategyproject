@@ -98,3 +98,38 @@ bool Map_Node::Delete_Connection(int id)
 		this->number_of_connections--;
 	}
 }
+
+nlohmann::json Map_Node::To_JSON()
+{
+	nlohmann::json node;
+	node["map_id"] = this->map_id;
+	node["area"] = this->area;
+	node["terrain"] = this->terrain;
+	node["number_of_connections"] = this->number_of_connections;
+	// Create vector of connections
+	std::vector<nlohmann::json> conns;
+	for (int i = 0; i < this->number_of_connections; i++)
+	{
+		if (&this->connections[i] == nullptr)
+			continue;
+		conns.push_back(Connection_To_JSON(this->connections[i]));
+	}
+	node["connections"] = conns;
+	// Create vector of populations
+	return nlohmann::json();
+}
+
+nlohmann::json Map_Node::Connection_To_JSON(Connection c)
+{
+	nlohmann::json conn;
+	conn["dest_map_id"] = c.dest_map_id;
+	conn["travel_cost"] = c.travel_cost;
+	conn["freight_cost"] = c.freight_cost_per_lb;
+	return nlohmann::json();
+}
+
+nlohmann::json Map_Node::Population_To_JSON(Population c)
+{	
+
+	return nlohmann::json();
+}
