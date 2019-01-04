@@ -122,6 +122,12 @@ bool Map_Node::Delete_Connection(int id)
 	}
 }
 
+int Map_Node::Get_Number_Of_Nodes()
+{
+	return number_of_nodes;
+}
+
+/* Methods for saving map to file */
 nlohmann::json Map_Node::To_JSON()
 {
 	nlohmann::json node;

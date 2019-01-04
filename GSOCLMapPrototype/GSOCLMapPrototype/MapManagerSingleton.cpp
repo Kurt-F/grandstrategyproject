@@ -14,7 +14,6 @@ MapManagerSingleton::MapManagerSingleton()
 	{
 		map[i] = nullptr;
 	}
-	this->number_of_nodes = 0;
 }
 
 MapManagerSingleton::~MapManagerSingleton()
@@ -106,7 +105,7 @@ void MapManagerSingleton::Save_Map()
 {
 	// Create vector of map nodes
 	std::vector<nlohmann::json> nodes = {};
-	for (int i = 0; i < this->number_of_nodes; i++) 
+	for (int i = 0; i < Map_Node::Get_Number_Of_Nodes(); i++) 
 	{
 		if (&this->map[i] == nullptr)
 		{

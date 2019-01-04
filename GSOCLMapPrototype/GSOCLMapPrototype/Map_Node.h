@@ -38,5 +38,6 @@ public:
 	bool Has_Connection(Map_Node m);
 	bool Delete_Connection(int id);
 	nlohmann::json To_JSON();
+	static int Get_Number_Of_Nodes();
 };
 
