@@ -1,6 +1,8 @@
 #pragma once
 #include "Population.h"	
 #include "Connection.h"
+#include "json.hpp"
+
 // Terrain constants
 #define FOOTHILLS 0
 #define DESERT 1
@@ -19,7 +21,11 @@ private:
 	unsigned char terrain;
 	unsigned char number_of_connections;
 	Connection* connections;
+	int number_of_residents; // TODO: Make this a smaller type
 	Population* residents;
+	nlohmann::json Connection_To_JSON(Connection c);
+	nlohmann::json Population_To_JSON(Population c);
+
 public:
 	Map_Node();
 	// ~Map_Node(); Since all of our Map_Nodes are not dynamic, we will have a delete function that essentially sets it to the Map_Node equal of "NULL"
@@ -31,5 +37,6 @@ public:
 	bool Has_Connection_Index(int index);
 	bool Has_Connection(Map_Node &m);
 	bool Delete_Connection(int id);
+	nlohmann::json To_JSON();
 };
 

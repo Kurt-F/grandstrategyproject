@@ -5,12 +5,12 @@ void Tests::Print_Test_Results(bool pass_fail, std::string name_of_message, std:
 {
 	if (pass_fail)
 	{
-		std::cout << "The test " << name_of_message.c_str() << " passed with a return message of " << message.c_str() << std::endl;
+		std::cout << "The test \"" << name_of_message.c_str() << "\" passed with a return message of \"" << message.c_str() << "\"" << std::endl;
 	}
 
 	else
 	{
-		std::cout << "The test " << name_of_message.c_str() << " failed with a return message of " << message.c_str() << std::endl;
+		std::cout << "The test \"" << name_of_message.c_str() << "\" failed with a return message of \"" << message.c_str() << "\"" << std::endl;
 	}
 }
 

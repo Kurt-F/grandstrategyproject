@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "MapManagerSingleton.h"
 #include "json.hpp"
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 MapManagerSingleton *MapManagerSingleton::instance;
 
@@ -88,9 +91,26 @@ bool MapManagerSingleton::Remove_Node(int id)
 }
 
 // Save the entire map to file
-bool MapManagerSingleton::Save_Map()
+void MapManagerSingleton::Save_Map()
 {
-	return false;
+	// Create vector of map nodes
+	std::vector<nlohmann::json> nodes = {};
+	for (int i = 0; i < this->number_of_nodes; i++) 
+	{
+		if (&this->map[i] == nullptr)
+		{
+			continue;
+		}
+		// If the node exists, add it to the vector
+		nodes.push_back(this->map[i].To_JSON());
+	}
+	nlohmann::json map;
+	// Note: Saving to file from here is probably temporary 
+	map["Node_List"] = nodes;
+	std::ofstream save_file;
+	save_file.open("map_save.json");
+	save_file << map.dump(); // Translate JSON to a string then dump to file
+	save_file.close();
 }
 
 // Load an entire map from file. Overwrites existing provinces
@@ -98,3 +118,4 @@ bool MapManagerSingleton::Load_Map()
 {
 	return false;
 }
+

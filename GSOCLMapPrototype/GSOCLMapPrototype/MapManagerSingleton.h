@@ -15,7 +15,7 @@ public:
 	bool Add_Node(Map_Node m);
 	Map_Node* Get_Node(int index);
 	bool Remove_Node(int index);
-	bool Save_Map();
+	void Save_Map();
 	bool Load_Map();
 };
 
