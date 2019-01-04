@@ -64,6 +64,11 @@ bool MapManagerSingleton::Add_Node(Map_Node m)
 	return true;
 }
 
+Map_Node MapManagerSingleton::Get_Node(int id)
+{
+	return map[id];
+}
+
 bool MapManagerSingleton::Remove_Node(int id)
 {
 	// Remove all connections going in and out of this node
