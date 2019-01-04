@@ -42,13 +42,26 @@ int Map_Node::Get_ID_Of_Connection(int index)
 // Returns false if max connections already reached. Actually creating connections is left to the manager
 bool Map_Node::Add_Connection(Connection c)
 {
-	if (this->number_of_connections >= MAX_NUM_CONNECTIONS)
+	if (this->number_of_connections >= MAX_NUM_CONNECTIONS || Has_Connection_Index(c.dest_map_id))
 	{
 		return false;
 	}
 	this->connections[number_of_connections] = c;
 	number_of_connections++;
 	return true;
+}
+
+bool Map_Node::Has_Connection_Index(int index)
+{
+	Connection c = this->connections[0];
+	while (&c != nullptr)
+	{
+		if (c.dest_map_id ==index)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool Map_Node::Has_Connection(Map_Node m)

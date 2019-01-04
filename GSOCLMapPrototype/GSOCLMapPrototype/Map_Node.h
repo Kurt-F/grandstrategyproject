@@ -28,6 +28,7 @@ public:
 	int Get_Number_Of_Connections();
 	int Get_ID_Of_Connection(int index);
 	bool Add_Connection(Connection c);
+	bool Has_Connection_Index(int index);
 	bool Has_Connection(Map_Node m);
 	bool Delete_Connection(int id);
 };

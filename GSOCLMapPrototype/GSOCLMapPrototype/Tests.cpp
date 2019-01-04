@@ -67,7 +67,9 @@ bool Tests::Add_Nodes(bool print_results)
 	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
 	for (int i = 0; i < 10; i++)
 	{
-		manager->Add_Node(*(new Map_Node()));
+		Map_Node mp;
+		mp = Map_Node();
+		manager->Add_Node(mp);
 	}
 	for (int i = 0; i < 10; i++)
 	{
@@ -83,5 +85,15 @@ bool Tests::Add_Nodes(bool print_results)
 
 bool Tests::Create_Connections(bool print_results)
 {
-
+	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	Map_Node a = manager->Get_Node(0);
+	Map_Node b = manager->Get_Node(1);
+	Map_Node c = manager->Get_Node(2);
+	manager->Create_Connection(a, b, 30, 25);
+	manager->Create_Connection(a, c, 15, 20);
+	if (!manager->Get_Node(0).Has_Connection(b))
+	{
+		return false;
+	}
+	return true;
 }
