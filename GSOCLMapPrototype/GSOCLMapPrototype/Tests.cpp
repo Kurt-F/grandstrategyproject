@@ -27,6 +27,8 @@ bool Tests::Run_Map_Tests(bool print_results, bool recursive_print_results)
 	map_tests = Create_MapManagerSingleton(recursive_print_results) && map_tests;
 	map_tests = Add_Nodes(recursive_print_results) && map_tests;
 	map_tests = Create_Connections(recursive_print_results) && map_tests;
+	map_tests = Remove_Connections(recursive_print_results) && map_tests;
+	map_tests = Remove_Nodes(recursive_print_results) && map_tests;
 	if (print_results)
 	{
 		if (map_tests)
@@ -95,7 +97,7 @@ bool Tests::Add_Nodes(bool print_results)
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		if (manager->Get_Node(i).Get_ID() != i)
+		if (manager->Get_Node(i)->Get_ID() != i)
 		{
 			Print_Test_Results(false, "Add Nodes", "nodes added incorrectly");
 			return false;
@@ -108,21 +110,22 @@ bool Tests::Add_Nodes(bool print_results)
 bool Tests::Create_Connections(bool print_results)
 {
 	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
-	Map_Node a = manager->Get_Node(0);
-	Map_Node b = manager->Get_Node(1);
-	Map_Node c = manager->Get_Node(2);
-	manager->Create_Connection(a, b, 30, 25);
-	manager->Create_Connection(a, c, 15, 20);
+	Map_Node &a = *manager->Get_Node(0);
+	Map_Node &b = *manager->Get_Node(1);
+	Map_Node &c = *manager->Get_Node(2);
 	bool it_works = true;
-	if (!manager->Get_Node(0).Has_Connection(manager->Get_Node(1)))
+	it_works = it_works  && manager->Create_Connection(a, b, 30, 25);
+	it_works = it_works && manager->Create_Connection(a, c, 15, 20);
+
+	if (!manager->Get_Node(0)->Has_Connection(*manager->Get_Node(1)))
 	{
 		it_works = false;
 	}
-	if (!manager->Get_Node(0).Has_Connection(manager->Get_Node(2)))
+	if (!manager->Get_Node(0)->Has_Connection(*manager->Get_Node(2)))
 	{
 		it_works = false;
 	}
-	if(manager->Get_Node(1).Has_Connection(manager->Get_Node(2)))
+	if(manager->Get_Node(1)->Has_Connection(*manager->Get_Node(2)))
 	{
 		it_works = false;
 	}
@@ -135,4 +138,52 @@ bool Tests::Create_Connections(bool print_results)
 		Print_Test_Results(it_works, "Creating Connections", "it did not work");
 	}
 	return it_works;
+}
+
+bool Tests::Remove_Connections(bool print_results)
+{
+	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	Map_Node &a = *manager->Get_Node(0);
+	Map_Node &b = *manager->Get_Node(1);
+	bool it_works = true;
+	manager->Remove_Connection(a, b);
+	if (manager->Get_Node(0)->Has_Connection(*manager->Get_Node(1)))
+	{
+		it_works = false;
+	}
+	if (it_works)
+	{
+		if (print_results)
+		{
+			Print_Test_Results(it_works, "Removing Connections", "it worked");
+		}
+	}
+	else
+	{
+		if (print_results)
+		{
+			Print_Test_Results(it_works, "Removing Connections", "it did not work");
+		}
+	}
+	return it_works;
+}
+
+bool Tests::Remove_Nodes(bool print_results)
+{
+	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
+	instance->Remove_Node(2);
+	Map_Node &a = *instance->Get_Node(0);
+	if (!a.Has_Connection_Index(2))
+	{
+		if (print_results)
+		{
+			Print_Test_Results(true, "Removing a node", "node removed successfully");
+		}
+		return true;
+	}
+	if(print_results)
+	{
+		Print_Test_Results(false, "Removing a node", "node was not removed successfully");
+	}
+	return false;
 }

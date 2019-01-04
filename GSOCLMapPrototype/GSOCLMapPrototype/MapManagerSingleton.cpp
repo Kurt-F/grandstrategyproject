@@ -68,9 +68,9 @@ bool MapManagerSingleton::Add_Node(Map_Node m)
 	return true;
 }
 
-Map_Node MapManagerSingleton::Get_Node(int id)
+Map_Node* MapManagerSingleton::Get_Node(int id)
 {
-	return map[id];
+	return &(map[id]);
 }
 
 bool MapManagerSingleton::Remove_Node(int id)
