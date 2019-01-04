@@ -8,7 +8,6 @@ MapManagerSingleton::MapManagerSingleton()
 {
 	this->map = new Map_Node[MAX_NUMBER_OF_NODES];
 	this->number_of_nodes = 0;
-	instance = this; 
 }
 
 MapManagerSingleton::~MapManagerSingleton()
@@ -16,13 +15,13 @@ MapManagerSingleton::~MapManagerSingleton()
 	delete(this->map); // I doubt the game will ever run without this object but who knows
 }
 
-MapManagerSingleton MapManagerSingleton::Get_Instance()
+MapManagerSingleton* MapManagerSingleton::Get_Instance()
 {
 	if (instance == nullptr)
 	{
 		instance = new MapManagerSingleton();
 	}
-	return *instance;
+	return instance;
 }
 
 bool MapManagerSingleton::Create_Connection(Map_Node &a, Map_Node &b, int freight_cost_per_lb, int travel_cost)
@@ -83,11 +82,13 @@ bool MapManagerSingleton::Remove_Node(int id)
 	return true;
 }
 
+// Save the entire map to file
 bool MapManagerSingleton::Save_Map()
 {
 	return false;
 }
 
+// Load an entire map from file. Overwrites existing provinces
 bool MapManagerSingleton::Load_Map()
 {
 	return false;
