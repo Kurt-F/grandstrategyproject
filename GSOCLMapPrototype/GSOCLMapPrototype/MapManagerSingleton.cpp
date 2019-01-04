@@ -9,8 +9,7 @@ MapManagerSingleton *MapManagerSingleton::instance;
 
 MapManagerSingleton::MapManagerSingleton()
 {
-	this->map = new Map_Node[MAX_NUMBER_OF_NODES];
-	this->number_of_nodes = 0;
+	this->map = new Map_Node*[MAX_NUMBER_OF_NODES]; // This actually creates MAX_NUMBER etc of errays
 }
 
 MapManagerSingleton::~MapManagerSingleton()
@@ -64,23 +63,25 @@ bool MapManagerSingleton::Add_Node(Map_Node m)
 {
 	if(m.Get_ID() >= MAX_NUMBER_OF_NODES)
 		return false;
-		this->map[m.Get_ID()] = m;
+	this->map[m.Get_ID()] = new Map_Node();
+	this->map[m.Get_ID()] = &m;
+	this->number_of_nodes++;
 	return true;
 }
 
-Map_Node* MapManagerSingleton::Get_Node(int id)
+Map_Node* MapManagerSingleton::Get_Node(int index)
 {
-	return &(map[id]);
+	return (map[index]);
 }
 
 bool MapManagerSingleton::Remove_Node(int id)
 {
 	// Remove all connections going in and out of this node
-	Map_Node* node = &map[id];
+	Map_Node* node = map[id];
 	int total_connections = node->Get_Number_Of_Connections();
 	for (int i = 0; i < total_connections; i++)
 	{
-		map[node->Get_ID_Of_Connection(i)].Delete_Connection(id);
+		(*map[node->Get_ID_Of_Connection(i)]).Delete_Connection(id);
 	}
 	while (node->Get_Number_Of_Connections() != 0)
 	{
@@ -102,7 +103,7 @@ void MapManagerSingleton::Save_Map()
 			continue;
 		}
 		// If the node exists, add it to the vector
-		nodes.push_back(this->map[i].To_JSON());
+		nodes.push_back(this->map[i]->To_JSON());
 	}
 	nlohmann::json map;
 	// Note: Saving to file from here is probably temporary 

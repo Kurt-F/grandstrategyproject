@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Map_Node.h"
-int Map_Node::number_of_nodes;
+int Map_Node::number_of_nodes = 0;
 
 Map_Node::Map_Node()
 {
@@ -82,7 +82,7 @@ bool Map_Node::Has_Connection_Index(int index)
 	return false;
 }
 
-bool Map_Node::Has_Connection(Map_Node &m)
+bool Map_Node::Has_Connection(Map_Node m)
 {
 	Connection c = this->connections[0];
 	int number_of_connections = this->number_of_connections;
