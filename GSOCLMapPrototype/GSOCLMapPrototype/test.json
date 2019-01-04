@@ -51,17 +51,17 @@
           {
             "size": 120000,
             "flags": 3,
-            "culture": 2,
+            "culture": 1,
             "profession": 1,
             "religion": 0,
             "ideology": 1,
             "birth_rate": 1.2,
             "needs": {
-              "GRAIN": 100,
-              "FRUIT": 200,
-              "MEAT": 20,
-              "IRON": 0,
-              "COAL": 0
+              "0": 100,
+              "1": 200,
+              "2": 20,
+              "3": 0,
+              "4": 0
             }
           }
         ]
