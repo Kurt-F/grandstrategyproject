@@ -91,7 +91,7 @@ bool MapManagerSingleton::Remove_Node(int id)
 }
 
 // Save the entire map to file
-bool MapManagerSingleton::Save_Map()
+void MapManagerSingleton::Save_Map()
 {
 	// Create vector of map nodes
 	std::vector<nlohmann::json> nodes = {};
@@ -105,13 +105,12 @@ bool MapManagerSingleton::Save_Map()
 		nodes.push_back(this->map[i].To_JSON());
 	}
 	nlohmann::json map;
+	// Note: Saving to file from here is probably temporary 
 	map["Node_List"] = nodes;
 	std::ofstream save_file;
 	save_file.open("map_save.json");
 	save_file << map.dump(); // Translate JSON to a string then dump to file
 	save_file.close();
-	// Note: Saving to file from here is probably temporary 
-	return true;
 }
 
 // Load an entire map from file. Overwrites existing provinces

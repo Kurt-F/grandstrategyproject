@@ -15,7 +15,7 @@
             "freight_cost": 10
           }
         ],
-        "populations": [
+        "residents": [
           {
             "size": 120000,
             "flags": 3,

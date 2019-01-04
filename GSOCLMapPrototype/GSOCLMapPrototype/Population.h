@@ -11,6 +11,7 @@
 #define ECON_MEAT 2
 #define ECON_IRON 3
 #define ECON_COAL 4
+#define NUM_GOODS 5
 // Job constants
 #define LABORER 0
 #define TECHNICIAN 1

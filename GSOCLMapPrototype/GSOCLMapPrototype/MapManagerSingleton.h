@@ -8,7 +8,6 @@ private:
 	MapManagerSingleton();
 	int number_of_nodes;
 	~MapManagerSingleton();
-	bool Node_To_JSON(Map_Node n);
 public: 
 	static MapManagerSingleton* Get_Instance();
 	bool Create_Connection(Map_Node &a, Map_Node &b, int freight_cost_per_lb = 0, int travel_cost = 0);
@@ -16,7 +15,7 @@ public:
 	bool Add_Node(Map_Node m);
 	Map_Node Get_Node(int index);
 	bool Remove_Node(int index);
-	bool Save_Map();
+	void Save_Map();
 	bool Load_Map();
 };
 

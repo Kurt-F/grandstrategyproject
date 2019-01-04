@@ -21,6 +21,7 @@ private:
 	unsigned char terrain;
 	unsigned char number_of_connections;
 	Connection* connections;
+	int number_of_residents; // TODO: Make this a smaller type
 	Population* residents;
 	nlohmann::json Connection_To_JSON(Connection c);
 	nlohmann::json Population_To_JSON(Population c);

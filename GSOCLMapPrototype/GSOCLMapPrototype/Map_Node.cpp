@@ -116,7 +116,16 @@ nlohmann::json Map_Node::To_JSON()
 	}
 	node["connections"] = conns;
 	// Create vector of populations
-	return nlohmann::json();
+	std::vector<nlohmann::json> populations;
+	for (int i = 0; i < this->number_of_residents; i++)
+	{
+		// Order doesn't matter, so skip empty elements
+		if (&this->residents[i] == nullptr)
+			continue;
+		populations.push_back(Population_To_JSON(this->residents[i]));
+	}
+	node["residents"] = populations;
+	return node;
 }
 
 nlohmann::json Map_Node::Connection_To_JSON(Connection c)
@@ -125,11 +134,27 @@ nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 	conn["dest_map_id"] = c.dest_map_id;
 	conn["travel_cost"] = c.travel_cost;
 	conn["freight_cost"] = c.freight_cost_per_lb;
-	return nlohmann::json();
+	return conn;
 }
 
 nlohmann::json Map_Node::Population_To_JSON(Population c)
 {	
-
-	return nlohmann::json();
+	nlohmann::json pop;
+	pop["size"] = c.size;
+	pop["flags"] = c.flags;
+	pop["culture"] = c.culture;
+	pop["profession"] = c.profession;
+	pop["religion"] = c.religion;
+	pop["ideology"] = c.ideology;
+	pop["birth_rate"] = c.birth_rate;
+	// Create sub-object of needs
+	nlohmann::json needs;
+	for (int i = 0; i < NUM_GOODS; i++)
+	{
+		needs[i] = c.needs[i]; // Uses indices as json keys, might be a bad idea. 
+							   // Ideally can just use "ECON_*" constants to decode.
+							   // No null checking to preserve structure
+	}
+	pop["needs"] = needs;
+	return pop;
 }
