@@ -8,7 +8,7 @@ Map_Node::Map_Node()
 	this->number_of_connections = 0;
 	int capacity_number_of_connections = MAX_NUM_CONNECTIONS;
 	this->connections = new Connection[capacity_number_of_connections];
-	this->residents = new Population[capacity_number_of_connections];
+	//this->residents = new Population[capacity_number_of_connections];
 	for (int i = 0; i < capacity_number_of_connections; i++)
 	{
 		connections[i] = Connection();
@@ -28,10 +28,10 @@ bool Map_Node::DeleteMapNode()
 	{
 		delete(connections);
 	}
-	if (residents != nullptr)
+	/*if (residents != nullptr)
 	{
 		delete(residents);
-	}
+	}*/
 	this->map_id = -1;
 	this->number_of_connections = 0;
 	this->terrain = 0;
@@ -145,7 +145,7 @@ nlohmann::json Map_Node::To_JSON()
 	}
 	node["connections"] = conns;
 	// Create vector of populations
-	std::vector<nlohmann::json> populations;
+	/*std::vector<nlohmann::json> populations;
 	for (int i = 0; i < this->number_of_residents; i++)
 	{
 		// Order doesn't matter, so skip empty elements
@@ -153,7 +153,7 @@ nlohmann::json Map_Node::To_JSON()
 			continue;
 		populations.push_back(Population_To_JSON(this->residents[i]));
 	}
-	node["residents"] = populations;
+	node["residents"] = populations;*/
 	return node;
 }
 
@@ -164,26 +164,4 @@ nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 	conn["travel_cost"] = c.travel_cost;
 	conn["freight_cost"] = c.freight_cost_per_lb;
 	return conn;
-}
-
-nlohmann::json Map_Node::Population_To_JSON(Population c)
-{	
-	nlohmann::json pop;
-	pop["size"] = c.size;
-	pop["flags"] = c.flags;
-	pop["culture"] = c.culture;
-	pop["profession"] = c.profession;
-	pop["religion"] = c.religion;
-	pop["ideology"] = c.ideology;
-	pop["birth_rate"] = c.birth_rate;
-	// Create sub-object of needs
-	nlohmann::json needs;
-	for (int i = 0; i < NUM_GOODS; i++)
-	{
-		needs[i] = c.needs[i]; // Uses indices as json keys, might be a bad idea. 
-							   // Ideally can just use "ECON_*" constants to decode.
-							   // No null checking to preserve structure
-	}
-	pop["needs"] = needs;
-	return pop;
 }
