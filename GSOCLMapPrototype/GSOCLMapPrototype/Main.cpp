@@ -3,5 +3,6 @@
 
 int main()
 {
-	return Tests::Run_All_Tests(true);
+	 Tests::Run_All_Tests(true);
+	 return 0;
 }

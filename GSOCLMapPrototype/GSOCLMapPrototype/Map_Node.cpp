@@ -1,11 +1,18 @@
 #include "pch.h"
 #include "Map_Node.h"
-
 int Map_Node::number_of_nodes;
 
 Map_Node::Map_Node()
 {
 	this->map_id = number_of_nodes;
+	this->number_of_connections = 0;
+	int capacity_number_of_connections = MAX_NUM_CONNECTIONS;
+	this->connections = new Connection[capacity_number_of_connections];
+	for (int i = 0; i < capacity_number_of_connections; i++)
+	{
+		connections[i] = Connection();
+		connections[i].dest_map_id = -1;
+	}
 	number_of_nodes++;
 }
 
@@ -42,7 +49,8 @@ int Map_Node::Get_ID_Of_Connection(int index)
 // Returns false if max connections already reached. Actually creating connections is left to the manager
 bool Map_Node::Add_Connection(Connection c)
 {
-	if (this->number_of_connections >= MAX_NUM_CONNECTIONS || Has_Connection_Index(c.dest_map_id))
+	int max_num_connections = MAX_NUM_CONNECTIONS;
+	if (this->number_of_connections >= max_num_connections || Has_Connection_Index(c.dest_map_id))
 	{
 		return false;
 	}
@@ -53,13 +61,17 @@ bool Map_Node::Add_Connection(Connection c)
 
 bool Map_Node::Has_Connection_Index(int index)
 {
-	Connection c = this->connections[0];
-	while (&c != nullptr)
+	int connection_num = 0;
+	int number_of_connections = MAX_NUM_CONNECTIONS;
+	Connection c = this->connections[connection_num];
+	while (connection_num < number_of_connections)
 	{
+		c = this->connections[connection_num];
 		if (c.dest_map_id ==index)
 		{
 			return true;
 		}
+		connection_num++;
 	}
 	return false;
 }
@@ -67,12 +79,16 @@ bool Map_Node::Has_Connection_Index(int index)
 bool Map_Node::Has_Connection(Map_Node m)
 {
 	Connection c = this->connections[0];
-	while(&c != nullptr)
+	int number_of_connections = MAX_NUM_CONNECTIONS;
+	int connection_num = 0;
+	while(connection_num < number_of_connections)
 	{
+		c = this->connections[connection_num];
 		if (c.dest_map_id == m.Get_ID())
 		{
 			return true;
 		}
+		connection_num++;
 	}
 	return false;
 }

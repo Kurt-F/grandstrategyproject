@@ -26,6 +26,7 @@ bool Tests::Run_Map_Tests(bool print_results, bool recursive_print_results)
 	bool map_tests = true;
 	map_tests = Create_MapManagerSingleton(recursive_print_results) && map_tests;
 	map_tests = Add_Nodes(recursive_print_results) && map_tests;
+	map_tests = Create_Connections(recursive_print_results) && map_tests;
 	if (print_results)
 	{
 		if (map_tests)
@@ -91,9 +92,26 @@ bool Tests::Create_Connections(bool print_results)
 	Map_Node c = manager->Get_Node(2);
 	manager->Create_Connection(a, b, 30, 25);
 	manager->Create_Connection(a, c, 15, 20);
-	if (!manager->Get_Node(0).Has_Connection(b))
+	bool it_works = true;
+	if (!manager->Get_Node(0).Has_Connection(manager->Get_Node(1)))
 	{
-		return false;
+		it_works = false;
 	}
-	return true;
+	if (!manager->Get_Node(0).Has_Connection(manager->Get_Node(2)))
+	{
+		it_works = false;
+	}
+	if(manager->Get_Node(1).Has_Connection(manager->Get_Node(2)))
+	{
+		it_works = false;
+	}
+	if (it_works)
+	{
+		Print_Test_Results(it_works, "Creating Connections", "it worked");
+	}
+	else
+	{
+		Print_Test_Results(it_works, "Creating Connections", "it did not work");
+	}
+	return it_works;
 }
