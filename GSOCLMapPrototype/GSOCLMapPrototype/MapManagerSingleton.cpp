@@ -9,12 +9,23 @@ MapManagerSingleton *MapManagerSingleton::instance;
 
 MapManagerSingleton::MapManagerSingleton()
 {
-	this->map = new Map_Node[MAX_NUMBER_OF_NODES];
+	this->map = new Map_Node*[MAX_NUMBER_OF_NODES];
+	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
+	{
+		map[i] = nullptr;
+	}
 	this->number_of_nodes = 0;
 }
 
 MapManagerSingleton::~MapManagerSingleton()
 {
+	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
+	{
+		if (map[i] != nullptr)
+		{
+
+		}
+	}
 	delete(this->map); // I doubt the game will ever run without this object but who knows
 }
 
@@ -60,27 +71,27 @@ bool MapManagerSingleton::Remove_Connection(Map_Node &a, Map_Node &b)
 	}
 }
 
-bool MapManagerSingleton::Add_Node(Map_Node m)
+bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
-	if(m.Get_ID() >= MAX_NUMBER_OF_NODES)
+	if(m->Get_ID() >= MAX_NUMBER_OF_NODES)
 		return false;
-		this->map[m.Get_ID()] = m;
+		this->map[m->Get_ID()] = m;
 	return true;
 }
 
 Map_Node* MapManagerSingleton::Get_Node(int id)
 {
-	return &(map[id]);
+	return (map[id]);
 }
 
 bool MapManagerSingleton::Remove_Node(int id)
 {
 	// Remove all connections going in and out of this node
-	Map_Node* node = &map[id];
+	Map_Node* node = map[id];
 	int total_connections = node->Get_Number_Of_Connections();
 	for (int i = 0; i < total_connections; i++)
 	{
-		map[node->Get_ID_Of_Connection(i)].Delete_Connection(id);
+		map[node->Get_ID_Of_Connection(i)]->Delete_Connection(id);
 	}
 	while (node->Get_Number_Of_Connections() != 0)
 	{
@@ -102,7 +113,7 @@ void MapManagerSingleton::Save_Map()
 			continue;
 		}
 		// If the node exists, add it to the vector
-		nodes.push_back(this->map[i].To_JSON());
+		nodes.push_back(this->map[i]->To_JSON());
 	}
 	nlohmann::json map;
 	// Note: Saving to file from here is probably temporary 
