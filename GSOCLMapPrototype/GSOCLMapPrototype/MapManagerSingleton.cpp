@@ -97,6 +97,7 @@ bool MapManagerSingleton::Remove_Node(int id)
 		node->Delete_Connection(0);
 	}
 	node->DeleteMapNode();
+	// TODO: Send "message" to anything living on the node that it's gone
 	return true;
 }
 
@@ -144,8 +145,8 @@ void MapManagerSingleton::Load_Map()
 	for (int i = 0; i < num_nodes; i++)
 	{
 		// Create node
-		Map_Node node = new Map_Node();
-		// Get name of node
+		Map_Node* node = new Map_Node();
+		int id = node_list[]
 		// etc
 		// Get connections of node
 		// for each connection

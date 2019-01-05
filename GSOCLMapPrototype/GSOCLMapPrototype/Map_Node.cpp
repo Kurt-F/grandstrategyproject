@@ -18,6 +18,7 @@ Map_Node::Map_Node()
 }
 
 
+
 bool Map_Node::DeleteMapNode()
 {
 	if (this->map_id == -1)
