@@ -15,6 +15,6 @@ public:
 	Map_Node* Get_Node(int index);
 	bool Remove_Node(int index);
 	void Save_Map();
-	bool Load_Map();
+	void Load_Map();
 };
 

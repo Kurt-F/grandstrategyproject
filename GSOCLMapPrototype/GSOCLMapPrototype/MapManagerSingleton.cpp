@@ -116,6 +116,7 @@ void MapManagerSingleton::Save_Map()
 	}
 	nlohmann::json map;
 	// Note: Saving to file from here is probably temporary 
+	map["Number_Of_Nodes"] = Map_Node::Get_Number_Of_Nodes();
 	map["Node_List"] = nodes;
 	std::ofstream save_file;
 	save_file.open("map_save.json");
@@ -124,8 +125,33 @@ void MapManagerSingleton::Save_Map()
 }
 
 // Load an entire map from file. Overwrites existing provinces
-bool MapManagerSingleton::Load_Map()
+void MapManagerSingleton::Load_Map()
 {
-	return false;
+	// Open file, read in entire file buffer as json::parse(file);
+	std::ifstream save_file;
+	save_file.open("map_save.json");
+	std::string raw;
+	std::string line;
+	while (std::getline(save_file, line))
+	{
+		raw += line;
+	}
+	nlohmann::json save = nlohmann::json::parse(raw);
+	// Get number of nodes
+	int num_nodes = save["Number_Of_Nodes"];
+	// Load "Node_list" as vector of json
+	nlohmann::json node_list = save["Node_List"];
+	for (int i = 0; i < num_nodes; i++)
+	{
+		// Create node
+		Map_Node node = new Map_Node();
+		// Get name of node
+		// etc
+		// Get connections of node
+		// for each connection
+			// node->connections[etc] = etc
+		// If node exists at map_id, delete it
+		// this->map[map_id] = node
+	}
 }
 

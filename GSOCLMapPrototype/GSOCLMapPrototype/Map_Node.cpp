@@ -165,3 +165,142 @@ nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 	conn["freight_cost"] = c.freight_cost_per_lb;
 	return conn;
 }
+
+bool Map_Node::Check_Flag(unsigned char f)
+{
+	if ((f & this->flags) > 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Map_Node::Set_Flag(unsigned char f)
+{
+	this->flags = f | this->flags;
+}
+
+void Map_Node::Toggle_Flag(unsigned char f)
+{
+	this->flags = f ^ this->flags;
+}
+
+void Map_Node::Set_Port_Level(unsigned char p)
+{
+	this->port_level = p;
+}
+
+void Map_Node::Set_Airport_Level(unsigned char a)
+{
+	this->airport_level = a;
+}
+
+void Map_Node::Set_Elevator_Level(unsigned char e)
+{
+	this->elevator_level = e;
+}
+
+void Map_Node::Set_Climate(unsigned char c)
+{
+	this->climate = c;
+}
+
+void Map_Node::Set_Nuclear_Contamination(float n)
+{
+	this->nuclear_contamination = n;
+}
+
+void Map_Node::Set_Chemical_Contamination(float c)
+{
+	this->chemical_contamination = c;
+}
+
+void Map_Node::Set_Area(int a)
+{
+	this->area = a;
+}
+
+void Map_Node::Set_Terrain(int t)
+{
+	this->terrain = t;
+}
+
+void Map_Node::Set_Atmosphere(int a)
+{
+	this->atmosphere = a;
+}
+
+void Map_Node::Set_Air_Quality(int q)
+{
+	this->air_quality = q;
+}
+
+void Map_Node::Set_Resource_Type(int r)
+{
+	this->resource_type = r;
+}
+
+void Map_Node::Set_Resource_Amount(int a)
+{
+	this->resource_amount = a;
+}
+
+unsigned char Map_Node::Get_Port_Level()
+{
+	return this->port_level;
+}
+
+unsigned char Map_Node::Get_Airport_Level()
+{
+	return this->airport_level;
+}
+
+unsigned char Map_Node::Get_Elevator_Level()
+{
+	return this->elevator_level;
+}
+
+unsigned char Map_Node::Get_Climate()
+{
+	return this->climate;
+}
+
+float Map_Node::Get_Nuclear_Contamination()
+{
+	return this->nuclear_contamination;
+}
+
+float Map_Node::Get_Chemical_Contamination()
+{
+	return this->chemical_contamination;
+}
+
+int Map_Node::Get_Area()
+{
+	return this->area;
+}
+
+int Map_Node::Get_Terrain()
+{
+	return this->terrain;
+}
+
+int Map_Node::Get_Atmosphere()
+{
+	return this->atmosphere;
+}
+
+int Map_Node::Get_Air_Quality()
+{
+	return this->air_quality;
+}
+
+int Map_Node::Get_Resource_Type()
+{
+	return this->resource_type;
+}
+
+int Map_Node::Get_Resource_Amount()
+{
+	return this->resource_amount;
+}
