@@ -19,15 +19,40 @@ namespace MapGUI.ViewModels
         #endregion
 
         #region Properties
-        public int Num_col_row { get => num_col_row; set => num_col_row = value; }
-        public int X_orig { get => x_orig; set => x_orig = value; }
+        public int Num_col_row
+        {
+            get => num_col_row;
+            set
+            {
+                if (value <= 0)
+                {
+                    num_col_row = 1;
+                }
+                else if (value > MAX_COL_ROWS)
+                {
+                    num_col_row = MAX_COL_ROWS;
+                }
+                else
+                {
+                    num_col_row = value;
+                }
+            }
+        }
+        public int X_orig {
+            get => x_orig;
+            set
+            {
+                x_orig = value;
+            }
+        }
         public int Y_orig { get => y_orig; set => y_orig = value; }
         #endregion
 
         #region Functions
         public MainViewModel(Grid grid)
         {
-            this.map = grid; 
+            this.map = grid;
+            this.Num_col_row = 5; 
         }
 
         public void AddRow_Column(int add)

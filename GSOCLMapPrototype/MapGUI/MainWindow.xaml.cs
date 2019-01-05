@@ -26,6 +26,31 @@ namespace MapGUI
         {
             InitializeComponent();
             _view_model = new ViewModels.MainViewModel(Map);
+            for(int i = 0; i < 10; i++)
+            {
+                
+                Map.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            }
+
+            for(int i = 0; i < 10; i++)
+            {
+                Map.ColumnDefinitions.Add(new ColumnDefinition() { Width = Map.RowDefinitions[0].Height });
+            }
+            
+            for(int i = 0; i < 10; i++)
+            {
+                for(int j = 0; j < 10; j++)
+                {
+                    Button btn = new Button();
+                    btn.Width = 10;
+                    btn.Height = 10;
+                    Map.Children.Add(btn);
+                    Grid.SetRow(btn, i);
+                    Grid.SetColumn(btn, j);
+                }
+            }
+
+        
         }
 
         private void Plus_Btn(object sender, RoutedEventArgs e)
