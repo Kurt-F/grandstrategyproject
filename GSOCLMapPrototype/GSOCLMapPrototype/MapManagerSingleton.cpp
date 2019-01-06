@@ -43,9 +43,10 @@ bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double fre
 	{
 		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
 		{
-			Create_Connection(map[index_a], map[index_b], freight_cost_per_lb, travel_cost);
+		 return	Create_Connection(map[index_a], map[index_b], freight_cost_per_lb, travel_cost);
 		}
 	}
+	return false; 
 }
 
 bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb, double travel_cost)
@@ -68,9 +69,10 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 	{
 		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
 		{
-			Remove_Connection(map[index_a], map[index_b]);
+		return 	Remove_Connection(map[index_a], map[index_b]);
 		}
 	}
+	return false;
 }
 
 bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)

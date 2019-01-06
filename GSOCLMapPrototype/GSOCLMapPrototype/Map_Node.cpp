@@ -17,7 +17,7 @@ Map_Node::Map_Node()
 	number_of_nodes++;
 }
 
-
+// Since it's a pointer, we should change this back to a regular deconstructor
 bool Map_Node::DeleteMapNode()
 {
 	if (this->map_id == -1)
@@ -36,6 +36,16 @@ bool Map_Node::DeleteMapNode()
 	this->number_of_connections = 0;
 	this->terrain = 0;
 	return true;
+}
+
+int Map_Node::Get_Area()
+{
+	return this->area;
+}
+
+int Map_Node::Get_Terrain()
+{
+	return this->terrain;
 }
 
 int Map_Node::Get_ID()

@@ -29,6 +29,8 @@ public:
 	Map_Node();
 	// ~Map_Node(); Since all of our Map_Nodes are not dynamic, we will have a delete function that essentially sets it to the Map_Node equal of "NULL"
 	bool DeleteMapNode();
+	int Get_Area();
+	int Get_Terrain();
 	int Get_ID();
 	int Get_Number_Of_Connections();
 	int Get_ID_Of_Connection(int index);

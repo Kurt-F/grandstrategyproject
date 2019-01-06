@@ -37,61 +37,72 @@ namespace GSOCLMapTester
         [DllImport("GSOCLMapPrototype.dll")]
         public static extern void DoNothing();
 
+        [DllImport("GSOCLMapPrototype.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ReadNodeAtIndex(IntPtr ptr, int index);
+
         static void Main(string[] args)
         {
-        unsafe
-            {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
-                IntPtr ptr = Marshal.AllocHGlobal(sizeof(IntPtr));
-                int temp;
-               for(int i = 0; i < 10000000; i++)
-                {
-                   temp = Add(i, i - 1); 
-                }
-                watch.Stop();
-                Console.WriteLine(watch.ElapsedMilliseconds);
-                watch = System.Diagnostics.Stopwatch.StartNew();
-                Add_Many(ptr, 10000000);
-                watch.Stop();
-                Console.WriteLine(watch.ElapsedMilliseconds);
-                watch = System.Diagnostics.Stopwatch.StartNew();
-                for(int i = 0; i < 10000000; i++)
-                {
-                    DoNothing();
-                }
-                watch.Stop();
-                Console.WriteLine(watch.ElapsedMilliseconds);
-                RunTests();
-            }
-            //TestStruct t;
             //unsafe
-            //{
-            //    IntPtr ptr = Marshal.AllocHGlobal(sizeof(TestStruct));
-            //    TestStructures(ptr);
-            //    t = (TestStruct)Marshal.PtrToStructure(ptr, typeof(TestStruct));
-            //    for (int i = 0; i < t.size_of_list; i++)
             //    {
-            //        Console.WriteLine(t.list[i]);
+
+
+            //        var watch = System.Diagnostics.Stopwatch.StartNew();
+            //        IntPtr ptr = Marshal.AllocHGlobal(sizeof(IntPtr));
+            //        int temp;
+            //       for(int i = 0; i < 10000000; i++)
+            //        {
+            //           temp = Add(i, i - 1); 
+            //        }
+            //        watch.Stop();
+            //        Console.WriteLine(watch.ElapsedMilliseconds);
+            //        watch = System.Diagnostics.Stopwatch.StartNew();
+            //        Add_Many(ptr, 10000000);
+            //        watch.Stop();
+            //        Console.WriteLine(watch.ElapsedMilliseconds);
+            //        watch = System.Diagnostics.Stopwatch.StartNew();
+            //        for(int i = 0; i < 10000000; i++)
+            //        {
+            //            DoNothing();
+            //        }
+            //        watch.Stop();
+            //        Console.WriteLine(watch.ElapsedMilliseconds);
+            //        RunTests();
             //    }
-            //}
-            //int a = GetNumberOfNodes();
-            //Console.WriteLine(a);
-            //AddNode();
-            //int b = GetNumberOfNodes();
-            //Console.WriteLine(b);
-            //AddNode();
-            //int c = GetNumberOfNodes();
-            //Console.WriteLine(c);
-            //AddNode();
-            //int d = GetNumberOfNodes();
-            //Console.WriteLine(d);
-            //int e = GetNumberOfNodes();
-            //Console.WriteLine(e);
-            //DoStuff();
-            //DoStuff();
-            //DoStuff();
-            //DoStuff();
-             Console.ReadKey();
+            TestStruct t;
+            unsafe
+            {
+                IntPtr ptr = Marshal.AllocHGlobal(sizeof(TestStruct));
+                TestStructures(ptr);
+                t = (TestStruct)Marshal.PtrToStructure(ptr, typeof(TestStruct));
+                for (int i = 0; i < t.size_of_list; i++)
+                {
+                    Console.WriteLine(t.list[i]);
+                }
+            }
+            int a = GetNumberOfNodes();
+            Console.WriteLine(a);
+            AddNode();
+            int b = GetNumberOfNodes();
+            Console.WriteLine(b);
+            AddNode();
+            int c = GetNumberOfNodes();
+            Console.WriteLine(c);
+            AddNode();
+            int d = GetNumberOfNodes();
+            Console.WriteLine(d);
+            int e = GetNumberOfNodes();
+            Console.WriteLine(e);
+            DoStuff();
+            DoStuff();
+            DoStuff();
+            DoStuff();
+            unsafe
+            {
+                IntPtr nodeptr = Marshal.AllocHGlobal(sizeof(Map_Node_Struct));
+                ReadNodeAtIndex(nodeptr, 1);
+                Map_Node_Struct m_struct = (Map_Node_Struct)Marshal.PtrToStructure(nodeptr, typeof(Map_Node_Struct));
+                 }
+            Console.ReadKey();
         }
 
         static void DoStuff()

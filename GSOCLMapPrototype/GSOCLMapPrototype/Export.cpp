@@ -18,6 +18,18 @@ extern "C"
 
 extern "C"
 {
+	struct Map_Node_Struct
+	{
+		int32_t map_id;
+		int32_t area;
+		int32_t terrain;
+		int32_t number_of_connections;
+		int32_t*connection_ids;
+	};
+}
+
+extern "C"
+{
 	__declspec(dllexport) void DoNothing()
 	{
 		int x = 2; 
@@ -53,7 +65,7 @@ extern "C"
 		s->y = 27.2; 
 		s->z = 'z';
 		s->size_of_list = 2; 
-		s->list = new int[s->size_of_list];
+		s->list = new int32_t[s->size_of_list];
 		for (int32_t i = 0; i < s->size_of_list; i++)
 		{
 			s->list[i] = i;
@@ -74,6 +86,32 @@ __declspec(dllexport) void AddNode()
 {
 	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
 	singleton->Add_Node(new Map_Node());
+}
+
+extern "C"
+__declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
+{
+	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
+	if (index < 0 || index >= Map_Node::Get_Number_Of_Nodes())
+	{
+		return;
+	}
+	else
+	{
+		Map_Node *node = instance->Get_Node(index);
+		m_struct->area = node->Get_Area();
+		m_struct->map_id = node->Get_ID();
+		m_struct->number_of_connections = node->Get_Number_Of_Connections();
+		m_struct->terrain = node->Get_Terrain(); 
+		if (m_struct->number_of_connections > 0)
+		{
+			m_struct->connection_ids = new int32_t[node->Get_Number_Of_Connections()];
+			for (int i = 0; i < m_struct->number_of_connections; i++)
+			{
+				m_struct->connection_ids[i] = node->Get_ID_Of_Connection(i);
+			}
+		}
+	}
 }
 
 extern "C"
