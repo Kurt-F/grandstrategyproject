@@ -96,10 +96,13 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 
 bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
-	// Check if there is a vacant memory position backwards in the array
-	// 
-	if(m->Get_ID() >= MAX_NUMBER_OF_NODES)
+	if (m->Get_ID() >= MAX_NUMBER_OF_NODES)
 		return false;
+	// Check if there is a vacant memory position backwards in the array
+		// Check next "open" position
+	int id = m->map[Map_Node::Get_Number_Of_Nodes()];
+		// while(not_resolved)
+			// if(map_id_
 	this->map[m->Get_ID()] = m;
 	return true;
 }
