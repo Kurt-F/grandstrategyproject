@@ -161,25 +161,24 @@ void MapManagerSingleton::Load_Map()
 	{
 		raw += line;
 	}
+	// Clear all existing nodes
+	for (int i = 0; i < Map_Node::Get_Number_Of_Nodes(); i++)
+	{
+		if (this->map[i] == nullptr)
+		{
+			continue;
+		}
+		delete(this->map[i]);
+		this->map[i] = nullptr; // this might be totally redundant
+	}
 	nlohmann::json save = nlohmann::json::parse(raw);
 	// Get number of nodes -- because of the way this is written to file, it counts empty slots
 	int num_nodes = save["Number_Of_Nodes"];
 	// Load "Node_list" as vector of json
-	nlohmann::json node_list = save["Node_List"];
+	nlohmann::json node_list = save["Node_List"].get<std::vector<nlohmann::json>>();
 	for (int i = 0; i < num_nodes; i++)
 	{
-		// Get map_id
-		int m_id = node_list
-		// while(map_id > current_node_count or whatever)
-			// increment
-		// Create node
 
-		// etc
-		// Get connections of node
-		// for each connection
-			// node->connections[etc] = etc
-		// If node exists at map_id, delete it
-		// this->map[map_id] = node
 	}
 }
 

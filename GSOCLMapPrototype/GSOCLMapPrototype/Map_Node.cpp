@@ -38,16 +38,6 @@ bool Map_Node::DeleteMapNode()
 	return true;
 }
 
-int Map_Node::Get_Area()
-{
-	return this->area;
-}
-
-int Map_Node::Get_Terrain()
-{
-	return this->terrain;
-}
-
 int Map_Node::Get_ID()
 {
 	return this->map_id;
@@ -141,9 +131,21 @@ int Map_Node::Get_Number_Of_Nodes()
 nlohmann::json Map_Node::To_JSON()
 {
 	nlohmann::json node;
-	node["map_id"] = this->map_id;
+	node["port_level"] = this->port_level;
+	node["airport_level"] = this->airport_level;
+	node["elevator_level"] = this->elevator_level;
+	node["polity"] = this->polity;
+	node["climate"] = this->climate;
+	node["nuclear_contamination"] = this->nuclear_contamination;
+	node["chemical_contamination"] = this->chemical_contamination;
 	node["area"] = this->area;
 	node["terrain"] = this->terrain;
+	node["atmosphere"] = this->atmosphere;
+	node["air_quality"] = this->air_quality;
+	node["resource_type"] = this->resource_type;
+	node["resource_amount"] = this->resource_amount;
+	node["number_of_connections"] = this->number_of_connections;
+	node["map_id"] = this->map_id;
 	node["number_of_connections"] = this->number_of_connections;
 	// Create vector of connections
 	std::vector<nlohmann::json> conns;
@@ -167,6 +169,18 @@ nlohmann::json Map_Node::To_JSON()
 	return node;
 }
 
+Map_Node* Map_Node::From_JSON(nlohmann::json n)
+{
+	int m_id = n["map_id"];
+	int delta = m_id - Map_Node::Get_Number_Of_Nodes();
+	Map_Node::Increment_Count(m_id);
+	Map_Node* node = new Map_Node();
+	//node->Set_Port_Level(n[""])
+	//node->Set_Area(n["area"]);
+	//node->Set_
+	return new Map_Node();
+}
+
 nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 {
 	nlohmann::json conn;
@@ -183,6 +197,16 @@ bool Map_Node::Check_Flag(unsigned char f)
 		return true;
 	}
 	return false;
+}
+
+void Map_Node::Increment_Count(int n)
+{
+	number_of_nodes += n;
+}
+
+void Map_Node::Reset_Count()
+{
+	number_of_nodes = 0;
 }
 
 void Map_Node::Set_Flag(unsigned char f)

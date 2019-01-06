@@ -40,8 +40,6 @@ public:
 	Map_Node();
 	// ~Map_Node(); Since all of our Map_Nodes are not dynamic, we will have a delete function that essentially sets it to the Map_Node equal of "NULL"
 	bool DeleteMapNode();
-	int Get_Area();
-	int Get_Terrain();
 	int Get_ID();
 	int Get_Number_Of_Connections();
 	int Get_ID_Of_Connection(int index);
@@ -50,11 +48,15 @@ public:
 	bool Has_Connection(Map_Node m);
 	bool Delete_Connection(int id);
 	nlohmann::json To_JSON();
+	static Map_Node* From_JSON(nlohmann::json n);
 	static int Get_Number_Of_Nodes();
 	// Flags
 	bool Check_Flag(unsigned char f); // Returns true if the given flag f is set
 	void Set_Flag(unsigned char f); // Sets the given flag to true
 	void Toggle_Flag(unsigned char f); // Inverts the state of the given flag
+	// Shitty workaround for loading from save
+	static void Reset_Count();
+	static void Increment_Count(int n);
 	// Setters
 	void Set_Port_Level(unsigned char p);
 	void Set_Airport_Level(unsigned char a);
