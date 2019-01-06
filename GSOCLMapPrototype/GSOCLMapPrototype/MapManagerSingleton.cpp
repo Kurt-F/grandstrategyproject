@@ -100,9 +100,9 @@ bool MapManagerSingleton::Add_Node(Map_Node *m)
 		return false;
 	// Check if there is a vacant memory position backwards in the array
 		// Check next "open" position
-	int id = m->map[Map_Node::Get_Number_Of_Nodes()];
-		// while(not_resolved)
-			// if(map_id_
+	int id = Map_Node::Get_Number_Of_Nodes();;
+	// If id < 0, then follow the rabbit trail to find the last empty slot
+	// 
 	this->map[m->Get_ID()] = m;
 	return true;
 }

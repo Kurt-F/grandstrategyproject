@@ -185,13 +185,7 @@ nlohmann::json Map_Node::To_JSON()
 
 Map_Node* Map_Node::From_JSON(nlohmann::json n)
 {
-	int m_id = n["map_id"];
-	int delta = m_id - Map_Node::Get_Number_Of_Nodes();
-	Map_Node::Increment_Count(m_id);
-	Map_Node* node = new Map_Node();
-	//node->Set_Port_Level(n[""])
-	//node->Set_Area(n["area"]);
-	//node->Set_
+	// Unfinished
 	return new Map_Node();
 }
 
