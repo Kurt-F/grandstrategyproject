@@ -110,9 +110,9 @@ bool Tests::Add_Nodes(bool print_results)
 bool Tests::Create_Connections(bool print_results)
 {
 	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
-	Map_Node &a = *manager->Get_Node(0);
-	Map_Node &b = *manager->Get_Node(1);
-	Map_Node &c = *manager->Get_Node(2);
+	Map_Node *a = manager->Get_Node(0);
+	Map_Node *b = manager->Get_Node(1);
+	Map_Node *c = manager->Get_Node(2);
 	bool it_works = true;
 	it_works = it_works  && manager->Create_Connection(a, b, 30, 25);
 	it_works = it_works && manager->Create_Connection(a, c, 15, 20);
@@ -143,8 +143,8 @@ bool Tests::Create_Connections(bool print_results)
 bool Tests::Remove_Connections(bool print_results)
 {
 	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
-	Map_Node &a = *manager->Get_Node(0);
-	Map_Node &b = *manager->Get_Node(1);
+	Map_Node *a = manager->Get_Node(0);
+	Map_Node *b = manager->Get_Node(1);
 	bool it_works = true;
 	manager->Remove_Connection(a, b);
 	if (manager->Get_Node(0)->Has_Connection(*manager->Get_Node(1)))

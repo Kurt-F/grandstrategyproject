@@ -22,7 +22,7 @@ MapManagerSingleton::~MapManagerSingleton()
 	{
 		if (map[i] != nullptr)
 		{
-
+			delete(map[i]);
 		}
 	}
 	delete(this->map); // I doubt the game will ever run without this object but who knows
@@ -37,29 +37,51 @@ MapManagerSingleton* MapManagerSingleton::Get_Instance()
 	return instance;
 }
 
-bool MapManagerSingleton::Create_Connection(Map_Node &a, Map_Node &b, int freight_cost_per_lb, int travel_cost)
+bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
+{
+	if (index_a >= 0 && index_a < Map_Node::Get_Number_Of_Nodes() && index_b >= 0 && index_b < Map_Node::Get_Number_Of_Nodes())
+	{
+		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
+		{
+			Create_Connection(map[index_a], map[index_b], freight_cost_per_lb, travel_cost);
+		}
+	}
+}
+
+bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb, double travel_cost)
 {
 	// create connection from a to b
 	Connection a_to_b = Connection();
-	a_to_b.dest_map_id = b.Get_ID(); 
+	a_to_b.dest_map_id = b->Get_ID();
 	a_to_b.freight_cost_per_lb = freight_cost_per_lb; 
 	a_to_b.travel_cost = travel_cost;
 	Connection b_to_a = Connection();
-	b_to_a.dest_map_id = a.Get_ID();
+	b_to_a.dest_map_id = a->Get_ID();
 	b_to_a.freight_cost_per_lb = freight_cost_per_lb;
 	b_to_a.travel_cost = travel_cost;
-	return (a.Add_Connection(a_to_b) && b.Add_Connection(b_to_a));
+	return (a->Add_Connection(a_to_b) && b->Add_Connection(b_to_a));
 }
 
-bool MapManagerSingleton::Remove_Connection(Map_Node &a, Map_Node &b)
+bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 {
-	if (!a.Has_Connection(b) || (!b.Has_Connection(a)))
+	if (index_a >= 0 && index_a < Map_Node::Get_Number_Of_Nodes() && index_b >= 0 && index_b < Map_Node::Get_Number_Of_Nodes())
+	{
+		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
+		{
+			Remove_Connection(map[index_a], map[index_b]);
+		}
+	}
+}
+
+bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
+{
+	if (!a->Has_Connection(*b) || (!b->Has_Connection(*a)))
 	{
 		return false;
 	}
 	else
 	{
-		if (a.Delete_Connection(b.Get_ID()) && b.Delete_Connection(a.Get_ID()))
+		if (a->Delete_Connection(b->Get_ID()) && b->Delete_Connection(a->Get_ID()))
 		{
 			return true;
 		}
@@ -138,15 +160,18 @@ void MapManagerSingleton::Load_Map()
 		raw += line;
 	}
 	nlohmann::json save = nlohmann::json::parse(raw);
-	// Get number of nodes
+	// Get number of nodes -- because of the way this is written to file, it counts empty slots
 	int num_nodes = save["Number_Of_Nodes"];
 	// Load "Node_list" as vector of json
 	nlohmann::json node_list = save["Node_List"];
 	for (int i = 0; i < num_nodes; i++)
 	{
+		// Get map_id
+		int m_id = node_list
+		// while(map_id > current_node_count or whatever)
+			// increment
 		// Create node
-		Map_Node* node = new Map_Node();
-		int id = node_list[]
+
 		// etc
 		// Get connections of node
 		// for each connection
