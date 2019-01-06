@@ -38,6 +38,8 @@ private:
 
 public:
 	Map_Node();
+	// Should ONLY be used for creating nodes in previously used memory, in singleton
+	Map_Node(int id);
 	// ~Map_Node(); Since all of our Map_Nodes are not dynamic, we will have a delete function that essentially sets it to the Map_Node equal of "NULL"
 	bool DeleteMapNode();
 	int Get_ID();
@@ -54,9 +56,6 @@ public:
 	bool Check_Flag(unsigned char f); // Returns true if the given flag f is set
 	void Set_Flag(unsigned char f); // Sets the given flag to true
 	void Toggle_Flag(unsigned char f); // Inverts the state of the given flag
-	// Shitty workaround for loading from save
-	static void Reset_Count();
-	static void Increment_Count(int n);
 	// Setters
 	void Set_Port_Level(unsigned char p);
 	void Set_Airport_Level(unsigned char a);

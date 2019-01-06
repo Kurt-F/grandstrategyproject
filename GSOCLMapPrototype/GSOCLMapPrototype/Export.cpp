@@ -28,6 +28,8 @@ extern "C"
 	};
 }
 
+
+// Begin test functions that do not do anything important
 extern "C"
 {
 	__declspec(dllexport) void DoNothing()
@@ -72,7 +74,9 @@ extern "C"
 		}
 	}
 }
+// End functions that do not do much of anything
 
+// Functions for connecting to the map singleton
 extern "C"
 {
 	__declspec(dllexport) int RunTests()
@@ -81,12 +85,6 @@ extern "C"
 	}
 }
 
-extern "C"
-__declspec(dllexport) void AddNode()
-{
-	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
-	singleton->Add_Node(new Map_Node());
-}
 
 extern "C"
 __declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
@@ -115,7 +113,26 @@ __declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
 }
 
 extern "C"
+__declspec(dllexport) void AddNode()
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	singleton->Add_Node(new Map_Node());
+}
+
+extern "C"
+__declspec(dllexport) int RemoveNode(int index)
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	return (int)singleton->Remove_Node(index);
+}
+
+extern "C"
+__declspec(dllexport) 
+
+extern "C"
 __declspec(dllexport) int GetNumberOfNodes()
 {
 	return Map_Node::Get_Number_Of_Nodes(); 
 }
+
+// End functions for connecting to the map singleton

@@ -17,6 +17,20 @@ Map_Node::Map_Node()
 	number_of_nodes++;
 }
 
+Map_Node::Map_Node(int id)
+{
+	this->map_id = id;
+	this->number_of_connections = 0;
+	int capacity_number_of_connections = MAX_NUM_CONNECTIONS;
+	this->connections = new Connection[capacity_number_of_connections];
+	//this->residents = new Population[capacity_number_of_connections];
+	for (int i = 0; i < capacity_number_of_connections; i++)
+	{
+		connections[i] = Connection();
+		connections[i].dest_map_id = -1;
+	}
+}
+
 // Since it's a pointer, we should change this back to a regular deconstructor
 bool Map_Node::DeleteMapNode()
 {
@@ -197,16 +211,6 @@ bool Map_Node::Check_Flag(unsigned char f)
 		return true;
 	}
 	return false;
-}
-
-void Map_Node::Increment_Count(int n)
-{
-	number_of_nodes += n;
-}
-
-void Map_Node::Reset_Count()
-{
-	number_of_nodes = 0;
 }
 
 void Map_Node::Set_Flag(unsigned char f)
