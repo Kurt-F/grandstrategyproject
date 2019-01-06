@@ -21,16 +21,16 @@ MapManagerSingleton::~MapManagerSingleton()
 	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
 	{
 		if (map[i] != nullptr)
-		{
-			delete(map[i]);
+			{
+				delete(map[i]);
+			}
 		}
+		delete(this->map); // I doubt the game will ever run without this object but who knows
 	}
-	delete(this->map); // I doubt the game will ever run without this object but who knows
-}
 
-MapManagerSingleton* MapManagerSingleton::Get_Instance()
-{
-	if (instance == nullptr)
+	MapManagerSingleton* MapManagerSingleton::Get_Instance()
+	{
+		if (instance == nullptr)
 	{
 		instance = new MapManagerSingleton();
 	}
