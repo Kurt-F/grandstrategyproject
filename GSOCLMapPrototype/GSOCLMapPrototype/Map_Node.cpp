@@ -29,10 +29,11 @@ Map_Node::Map_Node(int id)
 		connections[i] = Connection();
 		connections[i].dest_map_id = -1;
 	}
+	// Do not increment the max number of nodes, since we're reusing one. 
 }
 
 // Since it's a pointer, we should change this back to a regular deconstructor
-bool Map_Node::DeleteMapNode()
+bool Map_Node::DeleteMapNode(int pseudo_ptr)
 {
 	if (this->map_id == -1)
 	{
@@ -48,7 +49,7 @@ bool Map_Node::DeleteMapNode()
 	}*/
 	this->map_id = -1;
 	this->number_of_connections = 0;
-	this->terrain = 0;
+	this->terrain = pseudo_ptr;
 	return true;
 }
 

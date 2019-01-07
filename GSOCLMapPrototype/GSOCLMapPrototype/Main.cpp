@@ -7,7 +7,7 @@
 
 int main()
 {
-	//Tests::Run_All_Tests(true);
+	Tests::Run_All_Tests(true);
 	// Create a map with two map nodes
 	MapManagerSingleton* manager = MapManagerSingleton::Get_Instance();
 	Map_Node* n_1 = new Map_Node();

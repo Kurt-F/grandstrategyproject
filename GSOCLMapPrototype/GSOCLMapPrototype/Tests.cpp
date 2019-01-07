@@ -92,7 +92,7 @@ bool Tests::Add_Nodes(bool print_results)
 	for (int i = 0; i < 10; i++)
 	{
 		Map_Node *mp;
-		mp = new Map_Node();
+		mp = manager->Create_Map_Node();
 		manager->Add_Node(mp);
 	}
 	for (int i = 0; i < 10; i++)

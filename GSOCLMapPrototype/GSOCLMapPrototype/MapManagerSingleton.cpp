@@ -14,6 +14,7 @@ MapManagerSingleton::MapManagerSingleton()
 	{
 		map[i] = nullptr;
 	}
+	this->next_id = -1;
 }
 
 MapManagerSingleton::~MapManagerSingleton()
@@ -94,15 +95,24 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 	}
 }
 
+Map_Node* MapManagerSingleton::Create_Map_Node()
+{
+	// If no empty slots exist, just make a new one as before
+	if (next_id < 0)
+	{
+		return new Map_Node();
+	}
+	Map_Node* node;
+	node = new Map_Node(this->next_id);
+	this->next_id = this->map[next_id]->Get_Terrain();
+	delete(this->map[node->Get_ID()]);
+	return node;
+}
+
 bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
 	if (m->Get_ID() >= MAX_NUMBER_OF_NODES)
 		return false;
-	// Check if there is a vacant memory position backwards in the array
-		// Check next "open" position
-	int id = Map_Node::Get_Number_Of_Nodes();;
-	// If id < 0, then follow the rabbit trail to find the last empty slot
-	// 
 	this->map[m->Get_ID()] = m;
 	return true;
 }
@@ -125,7 +135,8 @@ bool MapManagerSingleton::Remove_Node(int id)
 	{
 		node->Delete_Connection(0);
 	}
-	node->DeleteMapNode();
+	node->DeleteMapNode(this->next_id);
+	this->next_id = id;
 	// TODO: Send "message" to anything living on the node that it's gone
 	return true;
 }

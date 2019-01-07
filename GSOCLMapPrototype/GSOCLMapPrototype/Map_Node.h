@@ -41,7 +41,7 @@ public:
 	// Should ONLY be used for creating nodes in previously used memory, in singleton
 	Map_Node(int id);
 	// ~Map_Node(); Since all of our Map_Nodes are not dynamic, we will have a delete function that essentially sets it to the Map_Node equal of "NULL"
-	bool DeleteMapNode();
+	bool DeleteMapNode(int pseudo_ptr);
 	int Get_ID();
 	int Get_Number_Of_Connections();
 	int Get_ID_Of_Connection(int index);
@@ -82,6 +82,5 @@ public:
 	int Get_Air_Quality();
 	int Get_Resource_Type();
 	int Get_Resource_Amount();
-
 };
 
