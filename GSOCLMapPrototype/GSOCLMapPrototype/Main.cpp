@@ -2,8 +2,6 @@
 #include "Tests.h"
 #include "MapManagerSingleton.h"
 #include "Map_Node.h"
-#include <iostream>
-#include <fstream>
 
 int main()
 {
@@ -17,6 +15,5 @@ int main()
 	manager->Create_Connection(n_1, n_2, 12, 10);
 	// Save map to file
 	manager->Save_Map();
-	manager->Load_Map();
 	return 0;
 }

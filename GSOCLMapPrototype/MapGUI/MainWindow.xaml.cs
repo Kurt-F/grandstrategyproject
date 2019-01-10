@@ -36,26 +36,30 @@ namespace MapGUI
             {
                 Map.ColumnDefinitions.Add(new ColumnDefinition() { Width = Map.RowDefinitions[0].Height });
             }
-            
-            for(int i = 0; i < 10; i++)
-            {
-                for(int j = 0; j < 10; j++)
-                {
-                    Button btn = new Button();
-                    btn.Width = 10;
-                    btn.Height = 10;
-                    Map.Children.Add(btn);
-                    Grid.SetRow(btn, i);
-                    Grid.SetColumn(btn, j);
-                }
-            }
+
+
 
         
         }
 
         private void Plus_Btn(object sender, RoutedEventArgs e)
         {
+            int number_of_rows = 10;
+            double height_per_row = this.Map.ActualHeight / number_of_rows;
+            int number_of_columns = (int)(this.Map.ActualWidth / height_per_row);
             _view_model.AddRow_Column(1);
+            //for (int i = 0; i < number_of_rows; i++)
+            //{
+            //    for (int j = 0; j < number_of_columns; j++)
+            //    {
+            //        Inherited_Controls.MapPieceRepresentor btn = new Inherited_Controls.MapPieceRepresentor();
+            //        btn.Width = height_per_row;
+            //        btn.Height = height_per_row;
+            //        Map.Children.Add(btn);
+            //        Grid.SetRow(btn, i);
+            //        Grid.SetColumn(btn, j);
+            //    }
+            //}
         }
 
         private void Minus_Btn(object sender, RoutedEventArgs e)
