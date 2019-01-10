@@ -92,6 +92,11 @@ __declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
 	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
 	if (index < 0 || index >= Map_Node::Get_Number_Of_Nodes())
 	{
+		m_struct->area = -1;
+		m_struct->connection_ids = nullptr; 
+		m_struct->map_id = -1;
+		m_struct->number_of_connections = -1;
+		m_struct->terrain = -1;
 		return;
 	}
 	else
@@ -127,7 +132,37 @@ __declspec(dllexport) int RemoveNode(int index)
 }
 
 extern "C"
-__declspec(dllexport) 
+__declspec(dllexport)  int CreateConnection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	return (int)singleton->Create_Connection(index_a, index_b, freight_cost_per_lb, travel_cost);
+}
+
+extern "C"
+__declspec(dllexport) int RemoveConnection(int index_a, int index_b)
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	return (int)singleton->Remove_Connection(index_a, index_b);
+}
+
+extern "C"
+__declspec(dllexport) int EditMapNode(int map_node_num, int what_is_being_changed, int val)
+{
+	Map_Node *mp = MapManagerSingleton::Get_Instance()->Get_Node(map_node_num);
+	if (what_is_being_changed == 0)
+	{
+		mp->Set_Port_Level(val);
+	}
+	else if (what_is_being_changed == 1)
+	{
+		mp->Set_Terrain((unsigned char)val);
+	}
+	else
+	{
+		mp->Set_Climate((unsigned char)val);
+	}
+	return 0;
+}
 
 extern "C"
 __declspec(dllexport) int GetNumberOfNodes()
