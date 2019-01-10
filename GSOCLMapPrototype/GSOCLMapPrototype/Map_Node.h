@@ -50,7 +50,6 @@ public:
 	bool Has_Connection(Map_Node m);
 	bool Delete_Connection(int id);
 	nlohmann::json To_JSON();
-	static Map_Node* From_JSON(nlohmann::json n);
 	static int Get_Number_Of_Nodes();
 	// Flags
 	bool Check_Flag(unsigned char f); // Returns true if the given flag f is set

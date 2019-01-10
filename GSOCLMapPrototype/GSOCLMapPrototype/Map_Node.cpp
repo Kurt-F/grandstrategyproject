@@ -184,12 +184,6 @@ nlohmann::json Map_Node::To_JSON()
 	return node;
 }
 
-Map_Node* Map_Node::From_JSON(nlohmann::json n)
-{
-	// Unfinished
-	return new Map_Node();
-}
-
 nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 {
 	nlohmann::json conn;
