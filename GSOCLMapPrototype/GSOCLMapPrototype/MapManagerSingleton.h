@@ -6,14 +6,6 @@ private:
 	static MapManagerSingleton* instance;
 	Map_Node** map;
 	int next_id;
-
-	/* This method return next_id and updates it.
-	 * 
-	 * next_id is found by creating a trail of deleted pointers. If map_id = -1, then the node
-	 * is deleted, and the terrain variable in the pointed-to object
-	 * stores the location of the next "dead" node or is -1 if there are
-	 * no more available. 
-	 */
 	MapManagerSingleton();
 	~MapManagerSingleton();
 public: 
