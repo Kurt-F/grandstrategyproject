@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "ConfigurationSingleton.h"
 #include "json.hpp"
+#include <fstream>
 
-ConfigurationSingleton::ConfigurationSingleton(int num_nodes, int num_conns) : 
-	MAX_NUMBER_OF_NODES(num_nodes), 
-	MAX_NUM_CONNECTIONS(num_conns)
+ConfigurationSingleton::ConfigurationSingleton(nlohmann::json c) : 
+	MAX_NUMBER_OF_NODES(c["MAX_NUMBER_OF_NODES"]), 
+	MAX_NUM_CONNECTIONS(c["MAX_NUM_CONNECTIONS"])
 {
 
 }
@@ -18,9 +19,10 @@ ConfigurationSingleton* ConfigurationSingleton::Get_Instance()
 {
 	if (instance == nullptr)
 	{
-		// Extract constants and pass to constructor
-		nlohmann::json config_file;
-		instance = new ConfigurationSingleton();
+		// Load config data and pass to constructor
+		std::ifstream infile("data/config/config.json");
+		nlohmann::json config_file = nlohmann::json::parse(infile);
+		instance = new ConfigurationSingleton(config_file);
 	}
 	return instance;
 }

@@ -179,14 +179,8 @@ void MapManagerSingleton::Save_Map()
 void MapManagerSingleton::Load_Map()
 {
 	// Open file, read in entire file buffer as json::parse(file);
-	std::ifstream save_file;
-	save_file.open("map_save.json");
-	std::string raw;
-	std::string line;
-	while (std::getline(save_file, line))
-	{
-		raw += line;
-	}
+	std::ifstream save_file("map_save.json");
+	nlohmann::json save = nlohmann::json::parse(save_file);
 	// Clear all existing nodes
 	for (int i = 0; i < Map_Node::Get_Number_Of_Nodes(); i++)
 	{
@@ -197,7 +191,6 @@ void MapManagerSingleton::Load_Map()
 		delete(this->map[i]);
 		this->map[i] = nullptr; // this might be totally redundant
 	}
-	nlohmann::json save = nlohmann::json::parse(raw);
 	// Get number of nodes -- because of the way this is written to file, it counts empty slots
 	int num_nodes = save["Number_Of_Nodes"];
 	// Load "Node_list" as vector of json

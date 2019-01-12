@@ -3,7 +3,7 @@ class ConfigurationSingleton
 {
 private:
 	static ConfigurationSingleton* instance;
-	ConfigurationSingleton(int num_nodes, int num_conns);
+	ConfigurationSingleton(nlohmann::json c);
 	~ConfigurationSingleton();
 public:
 	static ConfigurationSingleton* Get_Instance();
