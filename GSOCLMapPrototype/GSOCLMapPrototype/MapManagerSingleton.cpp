@@ -7,10 +7,20 @@
 
 MapManagerSingleton *MapManagerSingleton::instance;
 
+bool MapManagerSingleton::Check_Flag(Map_Node *m, unsigned char f)
+{
+	if ((f & m->flags) > 0)
+	{
+		return true;
+	}
+	return false;
+}
+
 MapManagerSingleton::MapManagerSingleton()
 {
-	this->map = new Map_Node*[MAX_NUMBER_OF_NODES];
-	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
+	config = ConfigurationSingleton::Get_Instance();
+	this->map = new Map_Node*[config->MAX_NUMBER_OF_NODES];
+	for (int i = 0; i < config->MAX_NUMBER_OF_NODES; i++)
 	{
 		map[i] = nullptr;
 	}
@@ -19,7 +29,7 @@ MapManagerSingleton::MapManagerSingleton()
 
 MapManagerSingleton::~MapManagerSingleton()
 {
-	for (int i = 0; i < MAX_NUMBER_OF_NODES; i++)
+	for (int i = 0; i < config->MAX_NUMBER_OF_NODES; i++)
 	{
 		if (map[i] != nullptr)
 			{

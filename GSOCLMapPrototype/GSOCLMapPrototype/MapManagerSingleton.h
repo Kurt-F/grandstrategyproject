@@ -1,8 +1,17 @@
 #pragma once
 #include "Map_Node.h"
+#include "ConfigurationSingleton.h"
+#include "json.hpp"
 class MapManagerSingleton
 {
 private:
+	// BEGIN node transfer
+	static int number_of_nodes;
+	bool Check_Flag(Map_Node *m, unsigned char f); // Returns true if the given flag f is set
+	void Set_Flag(unsigned char f); // Sets the given flag to true
+	void Toggle_Flag(unsigned char f); // Inverts the state of the given flag
+	// END node transfer
+	ConfigurationSingleton* config;
 	static MapManagerSingleton* instance;
 	Map_Node** map;
 	int next_id;

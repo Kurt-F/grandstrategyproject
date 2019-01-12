@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GSOCLMapPrototype", "GSOCLMapPrototype\GSOCLMapPrototype.vcxproj", "{256360EE-F140-4DED-A267-2F74E36787F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSOCLMapTester", "GSOCLMapTester\GSOCLMapTester.csproj", "{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGUI", "MapGUI\MapGUI.csproj", "{67322467-6659-44B1-AC30-799CEACCBF48}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,30 +25,6 @@ Global
 		{256360EE-F140-4DED-A267-2F74E36787F2}.Release|x64.Build.0 = Release|x64
 		{256360EE-F140-4DED-A267-2F74E36787F2}.Release|x86.ActiveCfg = Release|Win32
 		{256360EE-F140-4DED-A267-2F74E36787F2}.Release|x86.Build.0 = Release|Win32
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|x64.Build.0 = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Debug|x86.Build.0 = Debug|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|x64.ActiveCfg = Release|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|x64.Build.0 = Release|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|x86.ActiveCfg = Release|Any CPU
-		{9EB73264-4719-4FD3-9B4C-D5C6A2D1679E}.Release|x86.Build.0 = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|x64.Build.0 = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Debug|x86.Build.0 = Debug|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|x64.ActiveCfg = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|x64.Build.0 = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|x86.ActiveCfg = Release|Any CPU
-		{67322467-6659-44B1-AC30-799CEACCBF48}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
