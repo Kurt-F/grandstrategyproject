@@ -33,7 +33,7 @@ namespace MapGUI.Models
 
         // Actual Singleton interaction
         [DllImport("GSOCLMapPrototype.dll")]
-        private static extern void AddNode();
+        private static extern int AddNode();
 
         [DllImport("GSOCLMapPrototype.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int RemoveNode(int index);
@@ -82,9 +82,9 @@ namespace MapGUI.Models
             }
         }
 
-        public unsafe void _AddNode()
+        public unsafe int _AddNode()
         {
-            AddNode();
+          return AddNode();
         }
 
         public unsafe int _RemoveNode(int index)

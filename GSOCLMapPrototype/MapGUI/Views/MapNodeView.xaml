@@ -1,0 +1,54 @@
+﻿<Window x:Class="MapGUI.Views.MapNodeView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MapGUI.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="400"
+      Title="MapNodeView">
+    <Window.Resources>
+        <Thickness x:Key="tbMargin">0,10,0,0</Thickness>
+    </Window.Resources>
+    <Grid Background="Gray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height=".1*" MaxHeight="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" >
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="Margin" Value="{StaticResource tbMargin}"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Province ID"></Label>
+            <Label Content="Province Name"></Label>
+            <Label Content="Province Terrain"></Label>
+            <Label Content="Province Area"></Label>
+            <Label Content="State ID"></Label>
+            <Label Content="State Name"></Label>
+            <Label Content="Country ID"></Label>
+            <Label Content="Country Name"></Label>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="Margin" Value="{StaticResource tbMargin}"/>
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="Margin" Value="{StaticResource tbMargin}"/>
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin" Value="{StaticResource tbMargin}"/>
+                </Style>
+            </StackPanel.Resources>
+            <ComboBox SelectedItem="{Binding Province_ID, Mode=TwoWay}" ItemsSource="{Binding IDs, Mode=TwoWay}"></ComboBox>
+
+            <TextBox Text="{Binding Province_Name, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -118,10 +118,12 @@ __declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
 }
 
 extern "C"
-__declspec(dllexport) void AddNode()
+__declspec(dllexport) int AddNode()
 {
 	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
-	singleton->Add_Node(new Map_Node());
+	Map_Node *node = singleton->Create_Map_Node();
+	singleton->Add_Node(node);
+	return node->Get_ID();
 }
 
 extern "C"
