@@ -33,9 +33,6 @@
     <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Map_Node_Old.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Map_Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -50,19 +47,16 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapManagerSingleton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map_Node_Old.cpp">
+    <ClCompile Include="ConfigurationSingleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigurationSingleton.cpp">
+    <ClCompile Include="MapManagerSingleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

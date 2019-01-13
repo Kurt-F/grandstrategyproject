@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Tests.h"
 #include "MapManagerSingleton.h"
+using map = MapManagerSingleton;
+
 void Tests::Print_Test_Results(bool pass_fail, std::string name_of_message, std::string message)
 {
 	if (pass_fail)
@@ -109,7 +111,7 @@ bool Tests::Add_Nodes(bool print_results)
 
 bool Tests::Create_Connections(bool print_results)
 {
-	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	map *manager = map::Get_Instance();
 	Map_Node *a = manager->Get_Node(0);
 	Map_Node *b = manager->Get_Node(1);
 	Map_Node *c = manager->Get_Node(2);
@@ -117,15 +119,19 @@ bool Tests::Create_Connections(bool print_results)
 	it_works = it_works  && manager->Create_Connection(a, b, 30, 25);
 	it_works = it_works && manager->Create_Connection(a, c, 15, 20);
 
-	if (!manager->Get_Node(0)->Has_Connection(*manager->Get_Node(1)))
+	if (!manager->Node_Has_Connection(manager->Get_Node(0), manager->Get_Node(1)))
 	{
 		it_works = false;
 	}
-	if (!manager->Get_Node(0)->Has_Connection(*manager->Get_Node(2)))
+	if (!manager->Node_Has_Connection(manager->Get_Node(0), manager->Get_Node(2)))
 	{
 		it_works = false;
 	}
-	if(manager->Get_Node(1)->Has_Connection(*manager->Get_Node(2)))
+	if(!manager->Node_Has_Connection(manager->Get_Node(1), manager->Get_Node(2)))
+	{
+		it_works = false;
+	}
+	if(manager->Node_Has_Connection(manager->Get_Node(2), manager->Get_Node(3)))
 	{
 		it_works = false;
 	}
@@ -147,7 +153,7 @@ bool Tests::Remove_Connections(bool print_results)
 	Map_Node *b = manager->Get_Node(1);
 	bool it_works = true;
 	manager->Remove_Connection(a, b);
-	if (manager->Get_Node(0)->Has_Connection(*manager->Get_Node(1)))
+	if (manager->Node_Has_Connection(manager->Get_Node(0), manager->Get_Node(1)))
 	{
 		it_works = false;
 	}
@@ -173,7 +179,7 @@ bool Tests::Remove_Nodes(bool print_results)
 	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
 	instance->Remove_Node(2);
 	Map_Node &a = *instance->Get_Node(0);
-	if (!a.Has_Connection_Index(2))
+	if(!instance->Node_Has_Connection(&a, instance->Get_Node(2)))
 	{
 		if (print_results)
 		{

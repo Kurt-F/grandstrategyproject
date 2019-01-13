@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ConfigurationSingleton.h"
-#include "json.hpp"
 #include <fstream>
+ConfigurationSingleton* ConfigurationSingleton::instance;
 
 ConfigurationSingleton::ConfigurationSingleton(nlohmann::json c) : 
 	MAX_NUMBER_OF_NODES(c["MAX_NUMBER_OF_NODES"]), 

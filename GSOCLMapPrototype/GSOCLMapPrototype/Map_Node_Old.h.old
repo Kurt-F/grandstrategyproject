@@ -13,7 +13,7 @@
 #define MAX_NUMBER_OF_NODES 500000
 // TODO: add better terrain
 
-class Map_Node
+class Map_Node_Old
 {
 private:
 	static int number_of_nodes;

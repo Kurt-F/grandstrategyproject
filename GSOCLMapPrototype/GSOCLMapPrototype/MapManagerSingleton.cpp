@@ -6,10 +6,10 @@
 #include <fstream>
 
 MapManagerSingleton *MapManagerSingleton::instance;
-
-MapManagerSingleton::MapManagerSingleton()
+MapManagerSingleton::MapManagerSingleton():
+	number_of_nodes(0),
+	config(ConfigurationSingleton::Get_Instance())
 {
-	config = ConfigurationSingleton::Get_Instance();
 	this->map = new Map_Node*[config->MAX_NUMBER_OF_NODES];
 	for (int i = 0; i < config->MAX_NUMBER_OF_NODES; i++)
 	{
@@ -111,15 +111,21 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 
 Map_Node* MapManagerSingleton::Create_Map_Node()
 {
-	// If no empty slots exist, just make a new one as before
+	Map_Node* node = new Map_Node;
+	// Either use the top of the array, or an empty slot
 	if (next_id < 0)
 	{
-		return new Map_Node();
+		node->map_id = number_of_nodes;
 	}
-	Map_Node* node;
-	node->map_id = this->next_id;
-	this->next_id = this->map[next_id]->terrain;
-	delete(this->map[node->map_id]);
+	else
+	{
+		node->map_id = next_id;
+		// Go to the next available slot. 
+		this->next_id = this->map[next_id]->terrain;
+		Delete_Map_Node(this->map[node->map_id]);
+		delete(this->map[node->map_id]);
+	}
+	map[node->map_id] = node;
 	return node;
 }
 
@@ -127,7 +133,7 @@ bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
 	if (m->map_id >= config->MAX_NUMBER_OF_NODES)
 		return false;
-	this->map[m->map_id] = m;
+	map[m->map_id] = m;
 	return true;
 }
 
@@ -188,11 +194,23 @@ bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
 	delete(&temp);
 	return true;
 }
-struct test
+
+bool MapManagerSingleton::Delete_Map_Node(Map_Node* m)
 {
-	int i; 
-	int b;
-};
+	// Remove all connections going in and out of this node
+	for (int i = 0; i < m->connections.size(); i++)
+	{
+		Delete_Connection(map[m->connections.at(i).dest_node], m);
+		delete(&m->connections[i]); //This might not work
+	}
+	// Delete node itself
+	int id = m->map_id;
+	delete(m);
+	if (map[id] != nullptr)
+		return true;
+	return false;
+}
+
 // Save the entire map to file
 void MapManagerSingleton::Save_Map()
 {
@@ -241,8 +259,6 @@ void MapManagerSingleton::Load_Map()
 
 	}
 }
-
-
 
 // JSON serialization 
 nlohmann::json MapManagerSingleton::Conn_To_Json(Connection c)
