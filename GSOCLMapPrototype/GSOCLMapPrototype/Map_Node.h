@@ -1,9 +1,12 @@
 #pragma once
 #include "Connection.h"
+#include "Map_Node.h"
+#include "json.hpp"
 #include <string>
 #include <vector>
-
-// Constants for defining each element in modifier array
+// Json serialization functions
+void to_json(nlohmann::json& j, const Map_Node& p);
+void from_json(const nlohmann::json& j, Map_Node& p);
 // Struct version of Map_Node
 struct Map_Node
 {

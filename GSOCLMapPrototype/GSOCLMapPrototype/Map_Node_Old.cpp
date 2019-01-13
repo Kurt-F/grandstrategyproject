@@ -12,7 +12,7 @@ Map_Node::Map_Node()
 	for (int i = 0; i < capacity_number_of_connections; i++)
 	{
 		connections[i] = Connection();
-		connections[i].dest_map_id = -1;
+		connections[i].dest_node = -1;
 	}
 	number_of_nodes++;
 }
@@ -27,7 +27,7 @@ Map_Node::Map_Node(int id)
 	for (int i = 0; i < capacity_number_of_connections; i++)
 	{
 		connections[i] = Connection();
-		connections[i].dest_map_id = -1;
+		connections[i].dest_node = -1;
 	}
 	// Do not increment the max number of nodes, since we're reusing one. 
 }
@@ -65,14 +65,14 @@ int Map_Node::Get_Number_Of_Connections()
 
 int Map_Node::Get_ID_Of_Connection(int index)
 {
-	return this->connections[index].dest_map_id;
+	return this->connections[index].dest_node;
 }
 
 // Returns false if max connections already reached. Actually creating connections is left to the manager
 bool Map_Node::Add_Connection(Connection c)
 {
 	int max_num_connections = MAX_NUM_CONNECTIONS;
-	if (this->number_of_connections >= max_num_connections || Has_Connection_Index(c.dest_map_id))
+	if (this->number_of_connections >= max_num_connections || Has_Connection_Index(c.dest_node))
 	{
 		return false;
 	}
@@ -88,7 +88,7 @@ bool Map_Node::Has_Connection_Index(int index)
 	while (connection_num < this->number_of_connections)
 	{
 		c = this->connections[connection_num];
-		if (c.dest_map_id ==index)
+		if (c.dest_node ==index)
 		{
 			return true;
 		}
@@ -105,7 +105,7 @@ bool Map_Node::Has_Connection(Map_Node m)
 	while(connection_num < number_of_connections)
 	{
 		c = this->connections[connection_num];
-		if (c.dest_map_id == m.Get_ID())
+		if (c.dest_node == m.Get_ID())
 		{
 			return true;
 		}
@@ -119,7 +119,7 @@ bool Map_Node::Delete_Connection(int id)
 	int index = -1;
 	for (int i = 0; i < this->number_of_connections; i++)
 	{
-		if (this->connections[i].dest_map_id == id)
+		if (this->connections[i].dest_node == id)
 		{
 			index = i; 
 			break; 
@@ -187,7 +187,7 @@ nlohmann::json Map_Node::To_JSON()
 nlohmann::json Map_Node::Connection_To_JSON(Connection c)
 {
 	nlohmann::json conn;
-	conn["dest_map_id"] = c.dest_map_id;
+	conn["dest_map_id"] = c.dest_node;
 	conn["travel_cost"] = c.travel_cost;
 	conn["freight_cost"] = c.freight_cost_per_lb;
 	return conn;

@@ -1,8 +1,13 @@
 #pragma once
 #include "Map_Node.h"
+#include "json.hpp"
+// Json serialization functions
+void to_json(nlohmann::json& j, const Connection& c);
+void from_json(const nlohmann::json& j, Connection& c);
+
 struct Connection
 {
-	Map_Node* dest_node;
+	int dest_node;
 	float travel_cost;
 	float freight_cost_per_lb;
 };

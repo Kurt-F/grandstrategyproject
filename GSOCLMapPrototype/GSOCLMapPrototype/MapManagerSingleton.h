@@ -15,6 +15,10 @@ private:
 	static MapManagerSingleton* instance;
 	Map_Node** map;
 	int next_id;
+	// Check if node a has a connection to node b
+	bool Node_Has_Connection(Map_Node* a, Map_Node* b);
+	// Deletes all conbnections from node a to node b, returns false if not found
+	bool Delete_All_Connections(Map_Node* a, Map_Node* b);
 	MapManagerSingleton();
 	~MapManagerSingleton();
 public: 

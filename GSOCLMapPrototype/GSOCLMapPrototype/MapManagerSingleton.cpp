@@ -62,12 +62,19 @@ bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double fre
 	b_to_a.dest_node = a;
 	b_to_a.freight_cost_per_lb = freight_cost_per_lb;
 	b_to_a.travel_cost = travel_cost;
-	return (a->Add_Connection(a_to_b) && b->Add_Connection(b_to_a));
+	a->connections.push_back(a_to_b);
+	b->connections.push_back(b_to_a);
+	// Check if the connections are set up correctly. Pointer values should be same. 
+	if (a->connections.at(a->connections.size).dest_node != b)
+		return false;
+	if (b->connections.at(b->connections.size).dest_node != a)
+		return false;
+	return true;
 }
 
 bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 {
-	if (index_a >= 0 && index_a < Map_Node::Get_Number_Of_Nodes() && index_b >= 0 && index_b < Map_Node::Get_Number_Of_Nodes())
+	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
 	{
 		if (map[index_a]->map_id == index_a && map[index_b]->map_id == index_b)
 		{
@@ -79,7 +86,7 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 
 bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 {
-	if (!a->Has_Connection(*b) || (!b->Has_Connection(*a)))
+	if (!Node_Has_Connection(a, b) || (!Node_Has_Connection(b, a)))
 	{
 		return false;
 	}
@@ -142,23 +149,61 @@ bool MapManagerSingleton::Remove_Node(int id)
 	return true;
 }
 
+bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
+{
+	for (int i = 0; i < a->connections.size; i++)
+	{
+		if (a->connections[i].dest_node == b)
+			return true;
+	}
+	return false;
+}
+
+bool MapManagerSingleton::Delete_All_Connections(Map_Node* a, Map_Node* b)
+{
+	// Transfer all connections to a new vector other than the deleted ones
+	bool deleted = false;
+	int offset = 0;
+	std::vector<Connection> updated;
+	for (int i = 0; i < a->connections.size; i++)
+	{
+		if (a->connections[i].dest_node == b)
+		{
+			offset++;
+			deleted = true;
+			continue;
+		}
+		updated.push_back(a->connections[i + offset]);
+	}
+	if (!deleted)
+		return false;
+	std::vector<Connection> temp;
+	temp = a->connections;
+	a->connections = updated;
+	delete(&temp);
+	return true;
+}
+struct test
+{
+	int i; 
+	int b;
+};
 // Save the entire map to file
 void MapManagerSingleton::Save_Map()
 {
-	// Create vector of map nodes
-	std::vector<nlohmann::json> nodes = {};
-	for (int i = 0; i < Map_Node::Get_Number_Of_Nodes(); i++) 
+	std::vector<nlohmann::json> nodes;
+	for (int i = 0; i < number_of_nodes; i++) 
 	{
 		if (&this->map[i] == nullptr)
 		{
 			continue;
 		}
-		// If the node exists, add it to the vector
-		nodes.push_back(this->map[i]->To_JSON());
+		// If the node exists, convert to json and add it to the vector
+		nodes.push_back(*this->map[i]);
 	}
 	nlohmann::json map;
 	// Note: Saving to file from here is probably temporary 
-	map["Number_Of_Nodes"] = Map_Node::Get_Number_Of_Nodes();
+	map["Number_Of_Nodes"] =  number_of_nodes;
 	map["Node_List"] = nodes;
 	std::ofstream save_file;
 	save_file.open("map_save.json");
@@ -173,7 +218,7 @@ void MapManagerSingleton::Load_Map()
 	std::ifstream save_file("map_save.json");
 	nlohmann::json save = nlohmann::json::parse(save_file);
 	// Clear all existing nodes
-	for (int i = 0; i < Map_Node::Get_Number_Of_Nodes(); i++)
+	for (int i = 0; i < number_of_nodes; i++)
 	{
 		if (this->map[i] == nullptr)
 		{
@@ -191,4 +236,3 @@ void MapManagerSingleton::Load_Map()
 
 	}
 }
-
