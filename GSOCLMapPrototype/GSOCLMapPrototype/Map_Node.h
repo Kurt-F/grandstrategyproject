@@ -4,9 +4,7 @@
 #include "json.hpp"
 #include <string>
 #include <vector>
-// Json serialization functions
-void to_json(nlohmann::json& j, const Map_Node& p);
-void from_json(const nlohmann::json& j, Map_Node& p);
+
 // Struct version of Map_Node
 struct Map_Node
 {
