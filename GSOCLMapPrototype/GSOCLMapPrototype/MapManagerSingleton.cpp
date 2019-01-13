@@ -7,15 +7,6 @@
 
 MapManagerSingleton *MapManagerSingleton::instance;
 
-bool MapManagerSingleton::Check_Flag(Map_Node *m, unsigned char f)
-{
-	if ((f & m->flags) > 0)
-	{
-		return true;
-	}
-	return false;
-}
-
 MapManagerSingleton::MapManagerSingleton()
 {
 	config = ConfigurationSingleton::Get_Instance();
@@ -50,9 +41,9 @@ MapManagerSingleton::~MapManagerSingleton()
 
 bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
 {
-	if (index_a >= 0 && index_a < Map_Node::Get_Number_Of_Nodes() && index_b >= 0 && index_b < Map_Node::Get_Number_Of_Nodes())
+	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
 	{
-		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
+		if (map[index_a]->map_id == index_a && map[index_b]->map_id == index_b)
 		{
 		 return	Create_Connection(map[index_a], map[index_b], freight_cost_per_lb, travel_cost);
 		}
@@ -64,11 +55,11 @@ bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double fre
 {
 	// create connection from a to b
 	Connection a_to_b = Connection();
-	a_to_b.dest_map_id = b->Get_ID();
+	a_to_b.dest_node = b;
 	a_to_b.freight_cost_per_lb = freight_cost_per_lb; 
 	a_to_b.travel_cost = travel_cost;
 	Connection b_to_a = Connection();
-	b_to_a.dest_map_id = a->Get_ID();
+	b_to_a.dest_node = a;
 	b_to_a.freight_cost_per_lb = freight_cost_per_lb;
 	b_to_a.travel_cost = travel_cost;
 	return (a->Add_Connection(a_to_b) && b->Add_Connection(b_to_a));
@@ -78,7 +69,7 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 {
 	if (index_a >= 0 && index_a < Map_Node::Get_Number_Of_Nodes() && index_b >= 0 && index_b < Map_Node::Get_Number_Of_Nodes())
 	{
-		if (map[index_a]->Get_ID() == index_a && map[index_b]->Get_ID() == index_b)
+		if (map[index_a]->map_id == index_a && map[index_b]->map_id == index_b)
 		{
 		return 	Remove_Connection(map[index_a], map[index_b]);
 		}

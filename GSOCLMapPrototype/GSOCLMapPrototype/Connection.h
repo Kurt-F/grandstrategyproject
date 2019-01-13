@@ -2,7 +2,7 @@
 #include "Map_Node.h"
 struct Connection
 {
-	int dest_map_id;
+	Map_Node* dest_node;
 	float travel_cost;
 	float freight_cost_per_lb;
 };

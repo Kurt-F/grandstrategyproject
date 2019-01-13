@@ -167,7 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConfigurationSingleton.cpp" />
-    <ClCompile Include="Export.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapManagerSingleton.cpp" />
     <ClCompile Include="Map_Node_Old.cpp" />
