@@ -1,11 +1,12 @@
 #include "pch.h"
-#include "Tests.h"
+/*#include "Tests.h"
 #include "MapManagerSingleton.h"
-#include "Map_Node.h"
-
+#include "Map_Node.h"*/
+#include "ConfigurationSingleton.h"
 int main()
 {
-	Tests::Run_All_Tests(true);
+	ConfigurationSingleton* config_test = ConfigurationSingleton::Get_Instance();
+	/*Tests::Run_All_Tests(true);
 	// Create a map with two map nodes
 	MapManagerSingleton* manager = MapManagerSingleton::Get_Instance();
 	Map_Node* n_1 = new Map_Node();
@@ -16,4 +17,5 @@ int main()
 	// Save map to file
 	manager->Save_Map();
 	return 0;
+	*/
 }

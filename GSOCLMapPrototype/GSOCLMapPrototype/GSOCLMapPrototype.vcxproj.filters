@@ -71,5 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="test.json" />
+    <None Include="content\config\config.json">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
