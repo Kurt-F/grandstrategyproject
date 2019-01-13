@@ -39,6 +39,9 @@ MapManagerSingleton::~MapManagerSingleton()
 	return instance;
 }
 
+
+
+
 bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
 {
 	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
@@ -72,6 +75,7 @@ bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double fre
 	return true;
 }
 
+
 bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 {
 	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
@@ -86,20 +90,13 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 
 bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 {
-	if (!Node_Has_Connection(a, b) || (!Node_Has_Connection(b, a)))
+	if (!Node_Has_Connection(a, b) || !Node_Has_Connection(b, a))
 	{
 		return false;
 	}
 	else
 	{
-		if (a->Delete_Connection(b->map_id) && b->Delete_Connection(a->map_id))
-		{
-			return true;
-		}
-		else
-		{
-			return false; 
-		}
+		delete(*a->connections.)
 	}
 }
 
@@ -151,7 +148,17 @@ bool MapManagerSingleton::Remove_Node(int id)
 
 bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
 {
-	for (int i = 0; i < a->connections.size; i++)
+	for (int i = 0; i < (int) a->connections.size(); i++)
+	{
+		if (a->connections[i].dest_node == b->map_id)
+			return true;
+	}
+	return false;
+}
+
+bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
+{
+	for (int i = 0; i < (int)a->connections.size(); i++)
 	{
 		if (a->connections[i].dest_node == b->map_id)
 			return true;
@@ -165,7 +172,7 @@ bool MapManagerSingleton::Delete_All_Connections(Map_Node* a, Map_Node* b)
 	bool deleted = false;
 	int offset = 0;
 	std::vector<Connection> updated;
-	for (int i = 0; i < a->connections.size; i++)
+	for (int i = 0; i < a->connections.size(); i++)
 	{
 		if (a->connections[i].dest_node == b->map_id)
 		{
@@ -199,7 +206,7 @@ void MapManagerSingleton::Save_Map()
 			continue;
 		}
 		// If the node exists, convert to json and add it to the vector
-		nodes.push_back(*this->map[i]);
+		nodes.push_back(Node_To_Json(*this->map[i]));
 	}
 	nlohmann::json map;
 	// Note: Saving to file from here is probably temporary 
@@ -237,26 +244,35 @@ void MapManagerSingleton::Load_Map()
 	}
 }
 
-namespace map_node {
 
 
 // JSON serialization 
-void Conn_To_Json(nlohmann::json& j, const Connection& c)
+nlohmann::json MapManagerSingleton::Conn_To_Json(Connection c)
 {
-	j = nlohmann::json{ {"dest_node", c.dest_node} };
+	return nlohmann::json
+	{
+		{"dest_node", c.dest_node},
+		{"travel_cost", c.travel_cost},
+		{"freight_cost", c.freight_cost_per_lb}
+	};
 }
-void Conn_From_Json(const nlohmann::json& j, Connection& c)
+void MapManagerSingleton::Conn_From_Json(const nlohmann::json& j, Connection& c)
 {
 
 }
 
-void Node_To_Json(nlohmann::json& j, const Map_Node& m)
+nlohmann::json MapManagerSingleton::Node_To_Json(Map_Node m)
 {
-	j = nlohmann::json
+	std::vector<nlohmann::json> conns;
+	for (int i = 0; i < m.connections.size(); i++)
+	{
+		conns.push_back(Conn_To_Json(m.connections.at(i)));
+	}
+	return nlohmann::json
 	{
 		{"name", m.name},
 		{"map_id", m.map_id},
-		//{"connections", m.connections}, Add manual conversion here
+		{"connections", conns}, 
 		{"surface", m.surface},
 		{"terrain", m.terrain},
 		{"port_level", m.port_level},
@@ -274,7 +290,7 @@ void Node_To_Json(nlohmann::json& j, const Map_Node& m)
 	};
 }
 
-void Node_From_Json(const nlohmann::json& j, Map_Node& m)
+void MapManagerSingleton::Node_From_Json(const nlohmann::json& j, Map_Node& m)
 {
 	j.at("name").get_to(m.name);
 	j.at("map_id").get_to(m.map_id);

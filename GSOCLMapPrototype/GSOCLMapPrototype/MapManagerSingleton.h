@@ -5,14 +5,19 @@
 class MapManagerSingleton
 {
 private:
-	static int number_of_nodes;
-	ConfigurationSingleton* config;
 	static MapManagerSingleton* instance;
+	ConfigurationSingleton* config;
+	static int number_of_nodes;
 	Map_Node** map;
 	int next_id;
+	// Serialization functions
+	nlohmann::json Conn_To_Json(Connection c);
+	void Conn_From_Json(const nlohmann::json& j, Connection& c);
+	nlohmann::json Node_To_Json(Map_Node m);
+	void Node_From_Json(const nlohmann::json& j, Map_Node& m);
 	// Check if node a has a connection to node b
 	bool Node_Has_Connection(Map_Node* a, Map_Node* b);
-	// Deletes all conbnections from node a to node b, returns false if not found
+	// Deletes ALL connections from node a to node b, returns false if not found
 	bool Delete_All_Connections(Map_Node* a, Map_Node* b);
 	MapManagerSingleton();
 	~MapManagerSingleton();
