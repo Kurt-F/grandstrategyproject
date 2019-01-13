@@ -97,7 +97,7 @@ bool Tests::Add_Nodes(bool print_results)
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		if (manager->Get_Node(i)->Get_ID() != i)
+		if (manager->Get_Node(i)->map_id != i)
 		{
 			Print_Test_Results(false, "Add Nodes", "nodes added incorrectly");
 			return false;

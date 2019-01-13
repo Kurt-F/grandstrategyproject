@@ -96,8 +96,17 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 	}
 	else
 	{
-		delete(*a->connections.)
+		for (int i = 0; i < a->connections.size(); i++)\
+		{
+			if (a->connections.at(i).dest_node == a->map_id) 
+			{
+				delete(&a->connections.at(i));
+				return true;
+			}
+		}
 	}
+	// Return false if the connection does not exist
+	return false;
 }
 
 Map_Node* MapManagerSingleton::Create_Map_Node()
@@ -131,17 +140,16 @@ bool MapManagerSingleton::Remove_Node(int id)
 {
 	// Remove all connections going in and out of this node
 	Map_Node* node = map[id];
-	int total_connections = node->connections.size();
-	for (int i = 0; i < total_connections; i++)
+	for (int i = 0; i < node->connections.size(); i++)
 	{
-		map[node->connections.at(i).dest_node]->Delete_Connection(id);
+		Delete_Connection(map[node->connections.at(i).dest_node], map[id]);
+		delete(&map[id]->connections[i]); //This might not work
 	}
-	while (node->connections.size() != 0)
-	{
-		node->Delete_Connection(0);
-	}
-	node->DeleteMapNode(this->next_id);
-	this->next_id = id;
+	// "Free up" space in the array, use terrain to point to next free slot
+	map[next_id]->terrain = id;
+	next_id = id;
+	map[id]->map_id = -1;
+	map[id]->terrain = -1;
 	// TODO: Send "message" to anything living on the node that it's gone
 	return true;
 }
@@ -156,17 +164,7 @@ bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
 	return false;
 }
 
-bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
-{
-	for (int i = 0; i < (int)a->connections.size(); i++)
-	{
-		if (a->connections[i].dest_node == b->map_id)
-			return true;
-	}
-	return false;
-}
-
-bool MapManagerSingleton::Delete_All_Connections(Map_Node* a, Map_Node* b)
+bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
 {
 	// Transfer all connections to a new vector other than the deleted ones
 	bool deleted = false;
@@ -256,9 +254,13 @@ nlohmann::json MapManagerSingleton::Conn_To_Json(Connection c)
 		{"freight_cost", c.freight_cost_per_lb}
 	};
 }
-void MapManagerSingleton::Conn_From_Json(const nlohmann::json& j, Connection& c)
+Connection MapManagerSingleton::Conn_From_Json(nlohmann::json c)
 {
-
+	Connection conn;
+	conn.dest_node = c["dest_node"];
+	conn.travel_cost = c["travel_cost"];
+	conn.freight_cost_per_lb = c["freight_cost"];
+	return conn;
 }
 
 nlohmann::json MapManagerSingleton::Node_To_Json(Map_Node m)
@@ -294,7 +296,7 @@ void MapManagerSingleton::Node_From_Json(const nlohmann::json& j, Map_Node& m)
 {
 	j.at("name").get_to(m.name);
 	j.at("map_id").get_to(m.map_id);
-	//j.at("connections").get_to(m.connections); Add manual conversion here
+	//j.at("connections").get_to(m.connections); Add manual conversion
 	j.at("surface").get_to(m.surface);
 	j.at("terrain").get_to(m.terrain);
 	j.at("port_level").get_to(m.port_level);
