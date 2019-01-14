@@ -127,7 +127,7 @@ bool Tests::Create_Connections(bool print_results)
 	{
 		it_works = false;
 	}
-	if(!manager->Node_Has_Connection(manager->Get_Node(1), manager->Get_Node(2)))
+	if(manager->Node_Has_Connection(manager->Get_Node(1), manager->Get_Node(2)))
 	{
 		it_works = false;
 	}

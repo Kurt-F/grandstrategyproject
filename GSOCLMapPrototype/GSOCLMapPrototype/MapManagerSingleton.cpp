@@ -68,9 +68,9 @@ bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double fre
 	a->connections.push_back(a_to_b);
 	b->connections.push_back(b_to_a);
 	// Check if the connections are set up correctly. Pointer values should be same. 
-	if (a->connections.at(a->connections.size()).dest_node != b->map_id)
+	if (a->connections.at(a->connections.size() - 1).dest_node != b->map_id)
 		return false;
-	if (b->connections.at(b->connections.size()).dest_node != a->map_id)
+	if (b->connections.at(b->connections.size() - 1).dest_node != a->map_id)
 		return false;
 	return true;
 }
@@ -90,23 +90,35 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 
 bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 {
+	bool success_remove_a = false; 
+	bool success_remove_b = false;
 	if (!Node_Has_Connection(a, b) || !Node_Has_Connection(b, a))
 	{
 		return false;
 	}
 	else
 	{
-		for (int i = 0; i < a->connections.size(); i++)\
+		for (int i = 0; i < a->connections.size(); i++)
 		{
-			if (a->connections.at(i).dest_node == a->map_id) 
+			if (a->connections.at(i).dest_node == b->map_id) 
 			{
 				delete(&a->connections.at(i));
-				return true;
+				a->connections.erase(a->connections.begin() + i);
+				success_remove_a = true;
+			}
+		}
+		for (int i = 0; i < b->connections.size(); i++)
+		{
+			if (b->connections.at(i).dest_node == a->map_id)
+			{
+				delete(&b->connections.at(i));
+				b->connections.erase(b->connections.begin() + i);
+				success_remove_b = true;
 			}
 		}
 	}
 	// Return false if the connection does not exist
-	return false;
+	return success_remove_a && success_remove_b;
 }
 
 Map_Node* MapManagerSingleton::Create_Map_Node()
@@ -116,6 +128,7 @@ Map_Node* MapManagerSingleton::Create_Map_Node()
 	if (next_id < 0)
 	{
 		node->map_id = number_of_nodes;
+		number_of_nodes++;
 	}
 	else
 	{
