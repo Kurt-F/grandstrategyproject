@@ -1,8 +1,8 @@
 #pragma once
-#include "Map_Node.h"
+#include "json.hpp"
 struct Connection
 {
-	int dest_map_id;
+	int dest_node;
 	float travel_cost;
 	float freight_cost_per_lb;
 };

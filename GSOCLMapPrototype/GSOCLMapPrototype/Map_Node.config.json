@@ -1,0 +1,12 @@
+{
+  "MAX_NUM_CONNECTIONS": 20,
+  "MAX_NUMBER_OF_NODES": 50000,
+  "TERRAIN": [
+    {
+      "name": "Desert",
+      "modifiers": [
+
+      ]
+    }
+  ]
+}
