@@ -39,8 +39,26 @@ MapManagerSingleton::~MapManagerSingleton()
 	return instance;
 }
 
-
-
+Map_Node* MapManagerSingleton::Create_Map_Node()
+{
+	Map_Node* node = new Map_Node();
+	// Either use the top of the array, or an empty slot
+	if (next_id < 0)
+	{
+		node->map_id = number_of_nodes;
+		number_of_nodes++;
+	}
+	else
+	{
+		node->map_id = next_id;
+		// Go to the next available slot. 
+		this->next_id = this->map[next_id]->terrain;
+		Delete_Map_Node(this->map[node->map_id]);
+		// delete this->map[node->map_id]; Might not be neccesary
+	}
+	map[node->map_id] = node;
+	return node;
+}
 
 bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
 {
@@ -121,27 +139,6 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 	return success_remove_a && success_remove_b;
 }
 
-Map_Node* MapManagerSingleton::Create_Map_Node()
-{
-	Map_Node* node = new Map_Node;
-	// Either use the top of the array, or an empty slot
-	if (next_id < 0)
-	{
-		node->map_id = number_of_nodes;
-		number_of_nodes++;
-	}
-	else
-	{
-		node->map_id = next_id;
-		// Go to the next available slot. 
-		this->next_id = this->map[next_id]->terrain;
-		Delete_Map_Node(this->map[node->map_id]);
-		delete(this->map[node->map_id]);
-	}
-	map[node->map_id] = node;
-	return node;
-}
-
 bool MapManagerSingleton::Add_Node(Map_Node *m)
 {
 	if (m->map_id >= config->MAX_NUMBER_OF_NODES)
@@ -162,7 +159,7 @@ bool MapManagerSingleton::Remove_Node(int id)
 	for (int i = 0; i < node->connections.size(); i++)
 	{
 		Delete_Connection(map[node->connections.at(i).dest_node], map[id]);
-		delete(&map[id]->connections[i]); //This might not work
+		delete &map[id]->connections[i]; //This might not work
 	}
 	// "Free up" space in the array, use terrain to point to next free slot
 	if (next_id < 0)
@@ -216,12 +213,7 @@ bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
 
 bool MapManagerSingleton::Delete_Map_Node(Map_Node* m)
 {
-	// Remove all connections going in and out of this node
-	for (int i = 0; i < m->connections.size(); i++)
-	{
-		Delete_Connection(map[m->connections.at(i).dest_node], m);
-		delete(&m->connections[i]); //This might not work
-	}
+	Connection c = m->connections.at(0);
 	// Delete node itself
 	int id = m->map_id;
 	delete(m);

@@ -12,7 +12,7 @@ struct Map_Node
 	int map_id;
 	std::vector<Connection> connections;
 	unsigned char surface;
-	unsigned char terrain;
+	int terrain;
 	unsigned char port_level;
 	unsigned char airport_level;
 	unsigned char elevator_level;
