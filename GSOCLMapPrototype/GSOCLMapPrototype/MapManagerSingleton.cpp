@@ -158,8 +158,9 @@ bool MapManagerSingleton::Remove_Node(int id)
 	Map_Node* node = map[id];
 	for (int i = 0; i < node->connections.size(); i++)
 	{
-		Delete_Connection(map[node->connections.at(i).dest_node], map[id]);
-		delete &map[id]->connections[i]; //This might not work
+		int t = node->connections.at(i).dest_node;
+		Map_Node* referenced = map[node->connections.at(i).dest_node];
+		Remove_Connection(node, referenced);
 	}
 	// "Free up" space in the array, use terrain to point to next free slot
 	if (next_id < 0)
@@ -213,7 +214,12 @@ bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
 
 bool MapManagerSingleton::Delete_Map_Node(Map_Node* m)
 {
-	Connection c = m->connections.at(0);
+	// Delete each connection in the node
+	for (int i = 0; i < m->connections.size(); i++) 
+	{
+		Map_Node* referenced = map[m->connections.at(i).dest_node];
+		Remove_Connection(m, referenced);
+	}
 	// Delete node itself
 	int id = m->map_id;
 	delete(m);
