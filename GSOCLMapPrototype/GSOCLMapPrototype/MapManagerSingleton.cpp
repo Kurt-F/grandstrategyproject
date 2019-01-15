@@ -120,7 +120,6 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 		{
 			if (a->connections.at(i).dest_node == b->map_id) 
 			{
-				delete(&a->connections.at(i));
 				a->connections.erase(a->connections.begin() + i);
 				success_remove_a = true;
 			}
@@ -129,7 +128,6 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 		{
 			if (b->connections.at(i).dest_node == a->map_id)
 			{
-				delete(&b->connections.at(i));
 				b->connections.erase(b->connections.begin() + i);
 				success_remove_b = true;
 			}
