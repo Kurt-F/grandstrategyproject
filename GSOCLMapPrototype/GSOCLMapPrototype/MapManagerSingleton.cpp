@@ -165,8 +165,14 @@ bool MapManagerSingleton::Remove_Node(int id)
 		delete(&map[id]->connections[i]); //This might not work
 	}
 	// "Free up" space in the array, use terrain to point to next free slot
-	map[next_id]->terrain = id;
-	next_id = id;
+	if (next_id < 0)
+	{
+		next_id = id;
+	}
+	else 
+	{
+		map[next_id]->terrain = id;
+	}
 	map[id]->map_id = -1;
 	map[id]->terrain = -1;
 	// TODO: Send "message" to anything living on the node that it's gone

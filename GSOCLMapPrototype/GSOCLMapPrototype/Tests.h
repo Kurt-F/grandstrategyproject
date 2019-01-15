@@ -10,7 +10,7 @@
 		static void Print_Test_Results(bool pass_fail, std::string name_of_message, std::string message);
 		static bool Run_All_Tests(bool recursive_print_results);
 		static bool Run_Map_Tests(bool print_results, bool recursive_print_results);
-		static bool Run_FIO_Tests(bool print_results, bool recursive_print_results);
+		static bool Run_FIO_Tests(bool print_results, bool recursive_print_results); // File IO tests
 		static bool Create_MapManagerSingleton(bool print_results); // Run this test first
 		static bool Add_Nodes(bool print_results);
 		static bool Create_Connections(bool print_results);
