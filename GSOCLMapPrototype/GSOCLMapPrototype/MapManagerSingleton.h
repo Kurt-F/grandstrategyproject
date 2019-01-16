@@ -22,6 +22,7 @@ private:
 	~MapManagerSingleton();
 public: 
 	static MapManagerSingleton* Get_Instance();
+	int Get_Number_Of_Nodes();
 	bool Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost);
 	bool Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb = 0, double travel_cost = 0);
 	bool Remove_Connection(int index_a, int index_b);

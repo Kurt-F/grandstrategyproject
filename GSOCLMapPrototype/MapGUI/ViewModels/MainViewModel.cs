@@ -11,14 +11,14 @@ namespace MapGUI.ViewModels
 {
     public class MainViewModel
     {
-        #region private variables
+       #region private variables
        private const int MAX_COL_ROWS = 60;
        private int num_col_row; // will always be the same
        private int x_orig;
        private int y_orig;
        private MainModel model;
        private Grid map;
-        #endregion
+       #endregion
 
         #region Properties
         public int Num_col_row

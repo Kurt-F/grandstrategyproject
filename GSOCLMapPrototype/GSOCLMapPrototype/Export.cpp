@@ -18,16 +18,30 @@ extern "C"
 
 extern "C"
 {
-	struct Map_Node_Struct
+	struct Map_Node_DLL
 	{
-		int32_t map_id;
-		int32_t area;
-		int32_t terrain;
-		int32_t number_of_connections;
-		int32_t*connection_ids;
+		std::string name;
+		int map_id;
+		/* std::vector<Connection> connections; Vectors do not work well with C# marshalling. We would have to make an equivalent C# vector type
+		or create a dummy variable to hold it. Regardless, this should be fine since external functions should be used to modify the Connections vector
+		Also, we don't want to send back pointers to the map_nodes in C++ as to avoid accidental modifications. Thus, copying them into this struct
+		should not be terribly wasteful */
+		unsigned char surface;
+		int terrain;
+		unsigned char port_level;
+		unsigned char airport_level;
+		unsigned char elevator_level;
+		unsigned char polity; // PLACEHOLDER
+		unsigned char climate; // PLACEHOLDER
+		float nuclear;
+		float chemical;
+		int area; // Square miles
+		float oxygen; // Oxygen ppm per cubic foot or something
+		float air_quality; // Measure of common pollutants
+		int resource_type; // PLACEHOLDER
+		int resource_amount; // Tons of the resource available
 	};
 }
-
 
 // Begin test functions that do not do anything important
 extern "C"
@@ -87,33 +101,74 @@ extern "C"
 
 
 extern "C"
-__declspec(dllexport) void ReadNodeAtIndex(Map_Node_Struct *m_struct, int index)
+__declspec(dllexport) void ReadNodeAtIndex(Map_Node_DLL *m_struct, int index)
 {
 	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
-	if (index < 0 || index >= Map_Node::Get_Number_Of_Nodes())
+	if (index < 0 || index >= instance->Get_Number_Of_Nodes())
 	{
-		m_struct->area = -1;
-		m_struct->connection_ids = nullptr; 
+		m_struct->name = "";
 		m_struct->map_id = -1;
-		m_struct->number_of_connections = -1;
-		m_struct->terrain = -1;
+		m_struct->surface = 0;
+		m_struct->terrain = 0;
+		m_struct->port_level = 0;
+		m_struct->elevator_level = 0;
+		m_struct->polity = 0;
+		m_struct->climate = 0;
+		m_struct->nuclear = -1;
+		m_struct->chemical = -1; 
+		m_struct->area = -1;
+		m_struct->oxygen = -1;
+		m_struct->air_quality = -1;
+		m_struct->resource_type = -1;
+		m_struct->resource_amount = -1;
+	}
+	else
+	{
+		Map_Node *node = instance->Get_Node(index);
+		m_struct->name = node->name;
+		m_struct->map_id = node->map_id; 
+		m_struct->surface = node->surface;
+		m_struct->terrain = node->terrain;
+		m_struct->port_level = node->port_level;
+		m_struct->elevator_level = node->elevator_level;
+		m_struct->polity = node->polity;
+		m_struct->climate = node->climate; 
+		m_struct->nuclear = node->nuclear;
+		m_struct->chemical = node->chemical;
+		m_struct->area = node->area;
+		m_struct->oxygen = node->oxygen;
+		m_struct->air_quality = node->air_quality;
+		m_struct->resource_type = node->resource_type;
+		m_struct->resource_amount = node->resource_amount;
+	}
+}
+
+extern "C"
+__declspec(dllexport) void WriteNodeAtIndex(Map_Node_DLL *m_struct, int index)
+{
+	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
+	if (index < 0 || index >= instance->Get_Number_Of_Nodes())
+	{
 		return;
 	}
 	else
 	{
 		Map_Node *node = instance->Get_Node(index);
-		m_struct->area = node->Get_Area();
-		m_struct->map_id = node->Get_ID();
-		m_struct->number_of_connections = node->Get_Number_Of_Connections();
-		m_struct->terrain = node->Get_Terrain(); 
-		if (m_struct->number_of_connections > 0)
-		{
-			m_struct->connection_ids = new int32_t[node->Get_Number_Of_Connections()];
-			for (int i = 0; i < m_struct->number_of_connections; i++)
-			{
-				m_struct->connection_ids[i] = node->Get_ID_Of_Connection(i);
-			}
-		}
+		node->name = m_struct->name;
+		node->map_id = m_struct->map_id;
+		node->surface = m_struct->surface;
+		node->terrain = m_struct->terrain;
+		node->port_level = m_struct->port_level;
+		node->elevator_level = m_struct->elevator_level;
+		node->polity = m_struct->polity;
+		node->climate = m_struct->climate;
+		node->nuclear = m_struct->nuclear;
+		node->chemical = m_struct->chemical;
+		node->area = m_struct->area;
+		node->oxygen = m_struct->oxygen;
+		node->air_quality = m_struct->air_quality;
+		node->resource_type = m_struct->resource_type;
+		node->resource_amount = m_struct->resource_amount;
 	}
 }
 
@@ -123,7 +178,7 @@ __declspec(dllexport) int AddNode()
 	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
 	Map_Node *node = singleton->Create_Map_Node();
 	singleton->Add_Node(node);
-	return node->Get_ID();
+	return node->map_id;
 }
 
 extern "C"
@@ -134,10 +189,25 @@ __declspec(dllexport) int RemoveNode(int index)
 }
 
 extern "C"
-__declspec(dllexport)  int CreateConnection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
+__declspec(dllexport) int CreateConnectionBothWays(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	return (int)singleton->Create_Connection(index_a, index_b, freight_cost_per_lb, travel_cost) + 
+		(int)singleton->Create_Connection(index_b, index_a, freight_cost_per_lb, travel_cost);
+}
+
+extern "C"
+__declspec(dllexport) int CreateConnection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
 {
 	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
 	return (int)singleton->Create_Connection(index_a, index_b, freight_cost_per_lb, travel_cost);
+}
+
+extern "C"
+__declspec(dllexport) int RemoveConnectionBothWays(int index_a, int index_b)
+{
+	MapManagerSingleton *singleton = MapManagerSingleton::Get_Instance();
+	return (int)singleton->Remove_Connection(index_a, index_b) + (int)singleton->Remove_Connection(index_b, index_a);
 }
 
 extern "C"
@@ -148,28 +218,9 @@ __declspec(dllexport) int RemoveConnection(int index_a, int index_b)
 }
 
 extern "C"
-__declspec(dllexport) int EditMapNode(int map_node_num, int what_is_being_changed, int val)
-{
-	Map_Node *mp = MapManagerSingleton::Get_Instance()->Get_Node(map_node_num);
-	if (what_is_being_changed == 0)
-	{
-		mp->Set_Port_Level(val);
-	}
-	else if (what_is_being_changed == 1)
-	{
-		mp->Set_Terrain((unsigned char)val);
-	}
-	else
-	{
-		mp->Set_Climate((unsigned char)val);
-	}
-	return 0;
-}
-
-extern "C"
 __declspec(dllexport) int GetNumberOfNodes()
 {
-	return Map_Node::Get_Number_Of_Nodes(); 
+	return MapManagerSingleton::Get_Instance()->Get_Number_Of_Nodes(); 
 }
 
 // End functions for connecting to the map singleton

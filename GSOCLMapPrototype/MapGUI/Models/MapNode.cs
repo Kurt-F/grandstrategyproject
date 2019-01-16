@@ -5,43 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MapGUI.Models
-{
-    // A "Province" of the map
-    // Note to Kurt: this may need to be altered to fit your JSON file
-    //class MapNode
-    //{
-    //    static int num_map_nodes = 0;
-    //    string name;
-    //    int id;
-    //    int country;
-    //    int state;
-    //    int climate;
-    //    int terrain;
-
-    //    public int Country { get => country; set => country = value; }
-    //    public int State { get => state; set => state = value; }
-    //    public int Climate { get => climate; set => climate = value; }
-    //    public int Terrain { get => terrain; set => terrain = value; }
-    //    public string Name { get => name; set => name = value; }
-
-    //    public MapNode(string name, int country = 0, int state = 0, int climate = 0, int terrain = 0)
-    //    {
-    //        this.id = num_map_nodes++;
-    //        this.name = name;
-    //        this.climate = climate;
-    //        this.country = country;
-    //        this.state = state;
-    //        this.terrain = terrain;
-    //    }
-    //}
-
+{ 
    public unsafe struct Map_Node_Struct
     {
-       public Int32 map_id;
-       public Int32 area;
-       public Int32 terrain;
-       public Int32 number_of_connections;
-       public Int32* connection_ids;
+        char name;
+        int map_id;
+        byte surface;
+        int terrain;
+        byte port_level;
+        byte airport_level;
+        byte elevator_level;
+        byte polity; // PLACEHOLDER
+        byte climate; // PLACEHOLDER
+        float nuclear;
+        float chemical;
+        int area; // Square miles
+        float oxygen; // Oxygen ppm per cubic foot or something
+        float air_quality; // Measure of common pollutants
+        int resource_type; // PLACEHOLDER
+        int resource_amount; // Tons of the resource available
     }
-
 }

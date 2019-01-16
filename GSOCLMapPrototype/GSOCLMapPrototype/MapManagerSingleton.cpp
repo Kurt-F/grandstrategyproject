@@ -39,6 +39,11 @@ MapManagerSingleton::~MapManagerSingleton()
 	return instance;
 }
 
+	int MapManagerSingleton::Get_Number_Of_Nodes()
+	{
+		return MapManagerSingleton::number_of_nodes;
+	}
+
 Map_Node* MapManagerSingleton::Create_Map_Node()
 {
 	Map_Node* node = new Map_Node();
@@ -46,7 +51,6 @@ Map_Node* MapManagerSingleton::Create_Map_Node()
 	if (next_id < 0)
 	{
 		node->map_id = number_of_nodes;
-		number_of_nodes++;
 	}
 	else
 	{
@@ -56,6 +60,7 @@ Map_Node* MapManagerSingleton::Create_Map_Node()
 		Delete_Map_Node(this->map[node->map_id]);
 		// delete this->map[node->map_id]; Might not be neccesary
 	}
+	number_of_nodes++;
 	map[node->map_id] = node;
 	return node;
 }
@@ -172,6 +177,7 @@ bool MapManagerSingleton::Remove_Node(int id)
 	map[id]->map_id = -1;
 	map[id]->terrain = -1;
 	// TODO: Send "message" to anything living on the node that it's gone
+	number_of_nodes--;
 	return true;
 }
 

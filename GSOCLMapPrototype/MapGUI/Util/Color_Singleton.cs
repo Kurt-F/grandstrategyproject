@@ -34,5 +34,10 @@ public class Color_Singleton
             }
             return instance;
         }
+
+        public Color GetColor(int index)
+        {
+            return colors[index];
+        }
     }
 }
