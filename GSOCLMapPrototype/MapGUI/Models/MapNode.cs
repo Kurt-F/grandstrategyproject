@@ -8,8 +8,8 @@ namespace MapGUI.Models
 { 
    public unsafe struct Map_Node_Struct
     {
-      public  char name;
-      public  int map_id;
+      public  char* name; // 1
+      public  int map_id; //
       public  byte surface;
       public  int terrain;
       public  byte port_level;

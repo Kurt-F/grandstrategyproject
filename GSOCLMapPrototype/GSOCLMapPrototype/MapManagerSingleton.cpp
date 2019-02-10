@@ -7,9 +7,9 @@
 
 MapManagerSingleton *MapManagerSingleton::instance;
 MapManagerSingleton::MapManagerSingleton():
-	number_of_nodes(0),
-	config(ConfigurationSingleton::Get_Instance())
+	number_of_nodes(0)
 {
+	config = ConfigurationSingleton::Get_Instance();
 	this->map = new Map_Node*[config->MAX_NUMBER_OF_NODES];
 	for (int i = 0; i < config->MAX_NUMBER_OF_NODES; i++)
 	{

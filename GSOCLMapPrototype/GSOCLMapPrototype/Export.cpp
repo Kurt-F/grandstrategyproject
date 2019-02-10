@@ -20,7 +20,7 @@ extern "C"
 {
 	struct Map_Node_DLL
 	{
-		std::string name;
+		char* name;
 		int map_id;
 		/* std::vector<Connection> connections; Vectors do not work well with C# marshalling. We would have to make an equivalent C# vector type
 		or create a dummy variable to hold it. Regardless, this should be fine since external functions should be used to modify the Connections vector
@@ -106,7 +106,7 @@ __declspec(dllexport) void ReadNodeAtIndex(Map_Node_DLL *m_struct, int index)
 	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
 	if (index < 0 || index >= instance->Get_Number_Of_Nodes())
 	{
-		m_struct->name = "";
+		m_struct->name = (char*)std::string("yes").c_str();
 		m_struct->map_id = -1;
 		m_struct->surface = 0;
 		m_struct->terrain = 0;
@@ -125,7 +125,7 @@ __declspec(dllexport) void ReadNodeAtIndex(Map_Node_DLL *m_struct, int index)
 	else
 	{
 		Map_Node *node = instance->Get_Node(index);
-		m_struct->name = node->name;
+		m_struct->name = (char*)node->name.c_str();
 		m_struct->map_id = node->map_id; 
 		m_struct->surface = node->surface;
 		m_struct->terrain = node->terrain;
