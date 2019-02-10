@@ -73,7 +73,7 @@ namespace MapGUI.Models
                     {
                         if (j + y >= 0 && j + y <= SIZE && !surroundingIds.ContainsKey(mapPieces[x + i][y + j].Map_node_id))
                         { 
-                            surroundingIds.Add(mapPieces[x + i][y + j].Map_node_id, "Billy Bob");
+                            surroundingIds.Add(mapPieces[x + i][y + j].Map_node_id, "Province");
                         }
                     }
                 }

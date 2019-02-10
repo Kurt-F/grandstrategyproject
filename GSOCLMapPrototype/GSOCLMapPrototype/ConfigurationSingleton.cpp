@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ConfigurationSingleton.h"
 #include <fstream>
+#include <iostream>
 ConfigurationSingleton* ConfigurationSingleton::instance;
 
 ConfigurationSingleton::ConfigurationSingleton(nlohmann::json c) : 
@@ -19,10 +20,17 @@ ConfigurationSingleton* ConfigurationSingleton::Get_Instance()
 {
 	if (instance == nullptr)
 	{
-		// Load config data and pass to constructor
-		std::ifstream infile("data/config/config.json");
-		nlohmann::json config_file = nlohmann::json::parse(infile);
-		instance = new ConfigurationSingleton(config_file);
+		try
+		{
+			// Load config data and pass to constructor
+			std::ifstream infile("data/config/config.json");
+			nlohmann::json config_file = nlohmann::json::parse(infile);
+			instance = new ConfigurationSingleton(config_file);
+		}
+		catch (...)
+		{
+			std::cout << "Config failed" << std::endl;
+		}
 	}
 	return instance;
 }

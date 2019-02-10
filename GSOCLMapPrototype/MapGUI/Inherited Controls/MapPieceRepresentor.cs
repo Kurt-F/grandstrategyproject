@@ -14,18 +14,6 @@ namespace MapGUI.Inherited_Controls
         MapPiece piece;
         public static MainModel _model_ref;
         public MapPiece Piece { get => piece; set => piece = value; }
-        public System.Windows.Media.Brush Background
-        {
-            get
-            {
-                return this.Background;
-            }
-            set
-            {
-                this.Background = value;
-            }
-        }
-
         public MapPieceRepresentor(MapPiece piece = null)
         {
             if (piece != null)
