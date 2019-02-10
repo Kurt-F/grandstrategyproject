@@ -11,6 +11,13 @@ ConfigurationSingleton::ConfigurationSingleton(nlohmann::json c) :
 
 }
 
+ConfigurationSingleton::ConfigurationSingleton() :
+	MAX_NUMBER_OF_NODES(100000),
+	MAX_NUM_CONNECTIONS(20)
+{
+
+}
+
 
 ConfigurationSingleton::~ConfigurationSingleton()
 {
@@ -30,6 +37,7 @@ ConfigurationSingleton* ConfigurationSingleton::Get_Instance()
 		catch (...)
 		{
 			std::cout << "Config failed" << std::endl;
+			instance = new ConfigurationSingleton();
 		}
 	}
 	return instance;

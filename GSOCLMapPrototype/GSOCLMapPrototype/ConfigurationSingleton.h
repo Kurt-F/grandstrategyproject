@@ -6,6 +6,7 @@ class ConfigurationSingleton
 private:
 	static ConfigurationSingleton* instance;
 	ConfigurationSingleton(nlohmann::json c);
+	ConfigurationSingleton();
 	~ConfigurationSingleton();
 public:
 	static ConfigurationSingleton* Get_Instance();
