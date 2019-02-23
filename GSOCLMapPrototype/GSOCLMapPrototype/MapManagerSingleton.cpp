@@ -5,8 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-MapManagerSingleton *MapManagerSingleton::instance;
-MapManagerSingleton::MapManagerSingleton():
+MapManager::MapManager():
 	number_of_nodes(0)
 {
 	config = ConfigurationSingleton::Get_Instance();
@@ -18,7 +17,7 @@ MapManagerSingleton::MapManagerSingleton():
 	this->next_id = -1;
 }
 
-MapManagerSingleton::~MapManagerSingleton()
+MapManager::~MapManager()
 {
 	for (int i = 0; i < config->MAX_NUMBER_OF_NODES; i++)
 	{
@@ -30,21 +29,13 @@ MapManagerSingleton::~MapManagerSingleton()
 		delete(this->map); // I doubt the game will ever run without this object but who knows
 	}
 
-	MapManagerSingleton* MapManagerSingleton::Get_Instance()
-	{
-		if (instance == nullptr)
-	{
-		instance = new MapManagerSingleton();
-	}
-	return instance;
-}
 
-	int MapManagerSingleton::Get_Number_Of_Nodes()
+	int MapManager::Get_Number_Of_Nodes()
 	{
-		return MapManagerSingleton::number_of_nodes;
+		return MapManager::number_of_nodes;
 	}
 
-Map_Node* MapManagerSingleton::Create_Map_Node()
+Map_Node* MapManager::Create_Map_Node()
 {
 	Map_Node* node = new Map_Node();
 	// Either use the top of the array, or an empty slot
@@ -65,7 +56,7 @@ Map_Node* MapManagerSingleton::Create_Map_Node()
 	return node;
 }
 
-bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
+bool MapManager::Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost)
 {
 	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
 	{
@@ -77,7 +68,7 @@ bool MapManagerSingleton::Create_Connection(int index_a, int index_b, double fre
 	return false; 
 }
 
-bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb, double travel_cost)
+bool MapManager::Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb, double travel_cost)
 {
 	// create connection from a to b
 	Connection a_to_b = Connection();
@@ -99,7 +90,7 @@ bool MapManagerSingleton::Create_Connection(Map_Node *a, Map_Node *b, double fre
 }
 
 
-bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
+bool MapManager::Remove_Connection(int index_a, int index_b)
 {
 	if (index_a >= 0 && index_a < this->number_of_nodes && index_b >= 0 && index_b < this->number_of_nodes)
 	{
@@ -111,7 +102,7 @@ bool MapManagerSingleton::Remove_Connection(int index_a, int index_b)
 	return false;
 }
 
-bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
+bool MapManager::Remove_Connection(Map_Node *a, Map_Node *b)
 {
 	bool success_remove_a = false; 
 	bool success_remove_b = false;
@@ -142,7 +133,7 @@ bool MapManagerSingleton::Remove_Connection(Map_Node *a, Map_Node *b)
 	return success_remove_a && success_remove_b;
 }
 
-bool MapManagerSingleton::Add_Node(Map_Node *m)
+bool MapManager::Add_Node(Map_Node *m)
 {
 	if (m->map_id >= config->MAX_NUMBER_OF_NODES)
 		return false;
@@ -150,12 +141,12 @@ bool MapManagerSingleton::Add_Node(Map_Node *m)
 	return true;
 }
 
-Map_Node* MapManagerSingleton::Get_Node(int id)
+Map_Node* MapManager::Get_Node(int id)
 {
 	return (map[id]);
 }
 
-bool MapManagerSingleton::Remove_Node(int id)
+bool MapManager::Remove_Node(int id)
 {
 	// Remove all connections going in and out of this node
 	Map_Node* node = map[id];
@@ -181,7 +172,7 @@ bool MapManagerSingleton::Remove_Node(int id)
 	return true;
 }
 
-bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
+bool MapManager::Node_Has_Connection(Map_Node* a, Map_Node* b)
 {
 	for (int i = 0; i < (int) a->connections.size(); i++)
 	{
@@ -191,7 +182,7 @@ bool MapManagerSingleton::Node_Has_Connection(Map_Node* a, Map_Node* b)
 	return false;
 }
 
-bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
+bool MapManager::Delete_Connection(Map_Node* a, Map_Node* b)
 {
 	// Transfer all connections to a new vector other than the deleted ones
 	bool deleted = false;
@@ -216,7 +207,7 @@ bool MapManagerSingleton::Delete_Connection(Map_Node* a, Map_Node* b)
 	return true;
 }
 
-bool MapManagerSingleton::Delete_Map_Node(Map_Node* m)
+bool MapManager::Delete_Map_Node(Map_Node* m)
 {
 	// Delete each connection in the node
 	for (int i = 0; i < m->connections.size(); i++) 
@@ -233,7 +224,7 @@ bool MapManagerSingleton::Delete_Map_Node(Map_Node* m)
 }
 
 // Save the entire map to file
-void MapManagerSingleton::Save_Map()
+void MapManager::Save_Map()
 {
 	std::vector<nlohmann::json> nodes;
 	for (int i = 0; i < number_of_nodes; i++) 
@@ -256,7 +247,7 @@ void MapManagerSingleton::Save_Map()
 }
 
 // Load an entire map from file. Overwrites existing provinces
-void MapManagerSingleton::Load_Map()
+void MapManager::Load_Map()
 {
 	// Open file, read in entire file buffer as json::parse(file);
 	std::ifstream save_file("map_save.json");
@@ -282,7 +273,7 @@ void MapManagerSingleton::Load_Map()
 }
 
 // JSON serialization 
-nlohmann::json MapManagerSingleton::Conn_To_Json(Connection c)
+nlohmann::json MapManager::Conn_To_Json(Connection c)
 {
 	return nlohmann::json
 	{
@@ -291,7 +282,7 @@ nlohmann::json MapManagerSingleton::Conn_To_Json(Connection c)
 		{"freight_cost", c.freight_cost_per_lb}
 	};
 }
-Connection MapManagerSingleton::Conn_From_Json(nlohmann::json c)
+Connection MapManager::Conn_From_Json(nlohmann::json c)
 {
 	Connection conn;
 	conn.dest_node = c["dest_node"];
@@ -300,7 +291,7 @@ Connection MapManagerSingleton::Conn_From_Json(nlohmann::json c)
 	return conn;
 }
 
-nlohmann::json MapManagerSingleton::Node_To_Json(Map_Node m)
+nlohmann::json MapManager::Node_To_Json(Map_Node m)
 {
 	std::vector<nlohmann::json> conns;
 	for (int i = 0; i < m.connections.size(); i++)
@@ -329,7 +320,7 @@ nlohmann::json MapManagerSingleton::Node_To_Json(Map_Node m)
 	};
 }
 
-void MapManagerSingleton::Node_From_Json(const nlohmann::json& j, Map_Node& m)
+void MapManager::Node_From_Json(const nlohmann::json& j, Map_Node& m)
 {
 	j.at("name").get_to(m.name);
 	j.at("map_id").get_to(m.map_id);

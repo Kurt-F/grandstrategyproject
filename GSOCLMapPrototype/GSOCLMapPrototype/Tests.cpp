@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Tests.h"
 #include "MapManagerSingleton.h"
-using map = MapManagerSingleton;
+using map = MapManager;
+
+MapManager *i;
 
 void Tests::Print_Test_Results(bool pass_fail, std::string name_of_message, std::string message)
 {
@@ -20,6 +22,7 @@ bool Tests::Run_All_Tests(bool recursive_print_results)
 {
 	bool passed = true; 
 	passed = passed && Run_Map_Tests(recursive_print_results, recursive_print_results);
+	delete(i);
 	return passed;
 }
 
@@ -70,8 +73,7 @@ bool Tests::Create_MapManagerSingleton(bool print_results)
 {
 	try
 	{
-		MapManagerSingleton *i = MapManagerSingleton::Get_Instance();
-		MapManagerSingleton *j = MapManagerSingleton::Get_Instance();
+		i = new MapManager();
 		if (print_results)
 		{
 			Print_Test_Results(true, "Create Map Manager", "it works");
@@ -90,7 +92,7 @@ bool Tests::Create_MapManagerSingleton(bool print_results)
 
 bool Tests::Add_Nodes(bool print_results)
 {
-	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	MapManager *manager = i;
 	for (int i = 0; i < 10; i++)
 	{
 		Map_Node *mp;
@@ -111,7 +113,7 @@ bool Tests::Add_Nodes(bool print_results)
 
 bool Tests::Create_Connections(bool print_results)
 {
-	map *manager = map::Get_Instance();
+	map *manager = i;
 	Map_Node *a = manager->Get_Node(0);
 	Map_Node *b = manager->Get_Node(1);
 	Map_Node *c = manager->Get_Node(2);
@@ -148,7 +150,7 @@ bool Tests::Create_Connections(bool print_results)
 
 bool Tests::Remove_Connections(bool print_results)
 {
-	MapManagerSingleton *manager = MapManagerSingleton::Get_Instance();
+	MapManager *manager = i;
 	Map_Node *a = manager->Get_Node(0);
 	Map_Node *b = manager->Get_Node(1);
 	bool it_works = true;
@@ -176,7 +178,7 @@ bool Tests::Remove_Connections(bool print_results)
 
 bool Tests::Remove_Nodes(bool print_results)
 {
-	MapManagerSingleton *instance = MapManagerSingleton::Get_Instance();
+	MapManager *instance = i;
 	instance->Remove_Node(2);
 	Map_Node &a = *instance->Get_Node(0);
 	if(!instance->Node_Has_Connection(&a, instance->Get_Node(2)))

@@ -2,10 +2,9 @@
 #include "Map_Node.h"
 #include "ConfigurationSingleton.h"
 #include "json.hpp"
-class MapManagerSingleton
+class MapManager
 {
 private:
-	static MapManagerSingleton* instance;
 	ConfigurationSingleton* config;
 	int number_of_nodes;
 	Map_Node** map;
@@ -18,10 +17,9 @@ private:
 	// Deletes ALL connections from node a to node b, returns false if not found
 	bool Delete_Connection(Map_Node* a, Map_Node* b);
 	bool Delete_Map_Node(Map_Node* m);
-	MapManagerSingleton();
-	~MapManagerSingleton();
 public: 
-	static MapManagerSingleton* Get_Instance();
+	MapManager();
+	~MapManager();
 	int Get_Number_Of_Nodes();
 	bool Create_Connection(int index_a, int index_b, double freight_cost_per_lb, double travel_cost);
 	bool Create_Connection(Map_Node *a, Map_Node *b, double freight_cost_per_lb = 0, double travel_cost = 0);
